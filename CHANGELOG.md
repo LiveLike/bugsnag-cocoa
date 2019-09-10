@@ -1,6 +1,16 @@
 Changelog
 =========
 
+## TBD
+
+### Enhancements
+
+* Support disabling crash reporting after initialization by setting
+  `Bugsnag.configuration.autoNotify`. Previously this value was ignored after
+  `Bugsnag.start()` was called, but is now used to update whether crash reports
+  will be detected and sent. This interface can be used for crash reporting
+  opt-out flows.
+
 ## 5.22.5 (2019-08-14)
 
 ### Bug fixes
