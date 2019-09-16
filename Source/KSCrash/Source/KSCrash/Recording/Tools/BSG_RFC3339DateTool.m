@@ -24,7 +24,7 @@
 
 #import "BSG_RFC3339DateTool.h"
 
-@implementation BSG_RFC3339DateTool
+@implementation LLBSG_RFC3339DateTool
 
 static NSString *const kDateFormatterKey = @"RfcDateFormatter";
 

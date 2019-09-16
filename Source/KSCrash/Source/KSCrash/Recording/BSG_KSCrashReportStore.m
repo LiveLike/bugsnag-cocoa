@@ -1,5 +1,5 @@
 //
-//  BSG_KSCrashReportStore.m
+//  LLBSG_KSCrashReportStore.m
 //
 //  Created by Karl Stenerud on 2012-02-05.
 //
@@ -35,11 +35,11 @@
 static NSString *const kCrashReportSuffix = @"-CrashReport-";
 #define BSG_kRecrashReportSuffix @"-RecrashReport-"
 
-@implementation BSG_KSCrashReportStore
+@implementation LLBSG_KSCrashReportStore
 
 #pragma mark Properties
 
-+ (BSG_KSCrashReportStore *)storeWithPath:(NSString *)path {
++ (LLBSG_KSCrashReportStore *)storeWithPath:(NSString *)path {
     return [[self alloc] initWithPath:path
                        filenameSuffix:kCrashReportSuffix];
 }
@@ -118,7 +118,7 @@ static NSString *const kCrashReportSuffix = @"-CrashReport-";
     NSMutableDictionary *crashReport =
             [report[@BSG_KSCrashField_Crash] mutableCopy];
     BSGDictInsertIfNotNil(mutableReport, crashReport, @BSG_KSCrashField_Crash);
-    BSG_KSCrashDoctor *doctor = [BSG_KSCrashDoctor doctor];
+    LLBSG_KSCrashDoctor *doctor = [LLBSG_KSCrashDoctor doctor];
     BSGDictInsertIfNotNil(crashReport, [doctor diagnoseCrash:report], @BSG_KSCrashField_Diagnosis);
 
     return mutableReport;
@@ -155,7 +155,7 @@ static NSString *const kCrashReportSuffix = @"-CrashReport-";
         return;
     }
     [report
-            setValue:[BSG_RFC3339DateTool
+            setValue:[LLBSG_RFC3339DateTool
                     stringFromUNIXTimestamp:[timestamp unsignedLongLongValue]]
               forKey:key];
 }

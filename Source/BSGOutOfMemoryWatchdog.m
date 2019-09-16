@@ -14,7 +14,7 @@
 #import "BugsnagKSCrashSysInfoParser.h"
 #import "BugsnagSessionTracker.h"
 
-@interface BSGOutOfMemoryWatchdog ()
+@interface LLBSGOutOfMemoryWatchdog ()
 @property(nonatomic, getter=isWatching) BOOL watching;
 @property(nonatomic, strong) NSString *sentinelFilePath;
 @property(nonatomic, getter=didOOMLastLaunch) BOOL oomLastLaunch;
@@ -22,7 +22,7 @@
 @property(nonatomic, strong, readwrite) NSDictionary *lastBootCachedFileInfo;
 @end
 
-@implementation BSGOutOfMemoryWatchdog
+@implementation LLBSGOutOfMemoryWatchdog
 
 - (instancetype)init {
     self = [self initWithSentinelPath:nil configuration:nil];
@@ -30,7 +30,7 @@
 }
 
 - (instancetype)initWithSentinelPath:(NSString *)sentinelFilePath
-                       configuration:(BugsnagConfiguration *)config {
+                       configuration:(LLBugsnagConfiguration *)config {
     if (sentinelFilePath.length == 0) {
         return nil; // disallow enabling a watcher without a file path
     }
@@ -79,7 +79,7 @@
                selector:@selector(handleUpdateSession:)
                    name:BSGSessionUpdateNotification
                  object:nil];
-    [[Bugsnag configuration]
+    [[LLBugsnag configuration]
         addObserver:self
          forKeyPath:NSStringFromSelector(@selector(releaseStage))
             options:NSKeyValueObservingOptionNew
@@ -106,7 +106,7 @@
     [self deleteSentinelFile];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     @try {
-        [[Bugsnag configuration]
+        [[LLBugsnag configuration]
             removeObserver:self
                 forKeyPath:NSStringFromSelector(@selector(releaseStage))];
     } @catch (NSException *exception) {
@@ -144,7 +144,7 @@
 }
 
 - (void)handleLowMemoryChange:(NSNotification *)note {
-    self.cachedFileInfo[@"device"][@"lowMemory"] = [[Bugsnag payloadDateFormatter]
+    self.cachedFileInfo[@"device"][@"lowMemory"] = [[LLBugsnag payloadDateFormatter]
                                                     stringFromDate:[NSDate date]];
     [self writeSentinelFile];
 }
@@ -160,7 +160,7 @@
     [self writeSentinelFile];
 }
 
-- (BOOL)computeDidOOMLastLaunchWithConfig:(BugsnagConfiguration *)config {
+- (BOOL)computeDidOOMLastLaunchWithConfig:(LLBugsnagConfiguration *)config {
     if ([[NSFileManager defaultManager] fileExistsAtPath:self.sentinelFilePath]) {
         NSDictionary *lastBootInfo = [self readSentinelFile];
         if (lastBootInfo != nil) {
@@ -175,7 +175,7 @@
                 [[lastBootInfo valueForKeyPath:@"app.inForeground"] boolValue];
             BOOL lastBootWasActive =
                 [[lastBootInfo valueForKeyPath:@"app.isActive"] boolValue];
-            NSString *osVersion = [BSG_KSSystemInfo osBuildVersion];
+            NSString *osVersion = [LLBSG_KSSystemInfo osBuildVersion];
             NSDictionary *appInfo = [[NSBundle mainBundle] infoDictionary];
             NSString *bundleVersion =
                 [appInfo valueForKey:@BSG_KSSystemField_BundleVersion];
@@ -233,8 +233,8 @@
     [data writeToFile:self.sentinelFilePath atomically:YES];
 }
 
-- (NSMutableDictionary *)generateCacheInfoWithConfig:(BugsnagConfiguration *)config {
-    NSDictionary *systemInfo = [BSG_KSSystemInfo systemInfo];
+- (NSMutableDictionary *)generateCacheInfoWithConfig:(LLBugsnagConfiguration *)config {
+    NSDictionary *systemInfo = [LLBSG_KSSystemInfo systemInfo];
     NSMutableDictionary *cache = [NSMutableDictionary new];
     NSMutableDictionary *app = [NSMutableDictionary new];
 
@@ -290,7 +290,7 @@
 - (UIApplicationState)currentAppState {
     // Only checked outside of app extensions since sharedApplication is
     // unavailable to extension UIKit APIs
-    if ([BSG_KSSystemInfo isRunningInAppExtension]) {
+    if ([LLBSG_KSSystemInfo isRunningInAppExtension]) {
         return UIApplicationStateActive;
     }
     UIApplication *app = [UIApplication performSelector:@selector(sharedApplication)];

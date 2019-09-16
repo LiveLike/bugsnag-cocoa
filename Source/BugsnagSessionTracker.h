@@ -1,9 +1,9 @@
 //
-//  BugsnagSessionTracker.h
-//  Bugsnag
+//  LLBugsnagSessionTracker.h
+//  LLBugsnag
 //
 //  Created by Jamie Lynch on 24/11/2017.
-//  Copyright © 2017 Bugsnag. All rights reserved.
+//  Copyright © 2017 LLBugsnag. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -11,23 +11,23 @@
 #import "BugsnagSession.h"
 #import "BugsnagConfiguration.h"
 
-@class BugsnagSessionTrackingApiClient;
+@class LLBugsnagSessionTrackingApiClient;
 
-typedef void (^SessionTrackerCallback)(BugsnagSession *newSession);
+typedef void (^SessionTrackerCallback)(LLBugsnagSession *newSession);
 
 extern NSString *const BSGSessionUpdateNotification;
 
-@interface BugsnagSessionTracker : NSObject
+@interface LLBugsnagSessionTracker : NSObject
 
 /**
  Create a new session tracker
 
- @param config The Bugsnag configuration to use
+ @param config The LLBugsnag configuration to use
  @param callback A callback invoked each time a new session is started
  @return A new session tracker
  */
-- (instancetype)initWithConfig:(BugsnagConfiguration *)config
-            postRecordCallback:(void(^)(BugsnagSession *))callback;
+- (instancetype)initWithConfig:(LLBugsnagConfiguration *)config
+            postRecordCallback:(void(^)(LLBugsnagSession *))callback;
 
 /**
  Record and send a new session
@@ -39,7 +39,7 @@ extern NSString *const BSGSessionUpdateNotification;
 
 /**
  Record a new auto-captured session if neededed. Auto-captured sessions are only
- recorded and sent if -[BugsnagConfiguration shouldAutoCaptureSessions] is YES
+ recorded and sent if -[LLBugsnagConfiguration shouldAutoCaptureSessions] is YES
  */
 - (void)startNewSessionIfAutoCaptureEnabled;
 
@@ -50,7 +50,7 @@ extern NSString *const BSGSessionUpdateNotification;
  */
 - (void)registerExistingSession:(NSString *)sessionId
                       startedAt:(NSDate *)startedAt
-                           user:(BugsnagUser *)user
+                           user:(LLBugsnagUser *)user
                    handledCount:(NSUInteger)handledCount
                  unhandledCount:(NSUInteger)unhandledCount;
 
@@ -70,14 +70,14 @@ extern NSString *const BSGSessionUpdateNotification;
 - (void)handleAppBackgroundEvent;
 
 /**
- Handle some variation of Bugsnag.notify() being called.
+ Handle some variation of LLBugsnag.notify() being called.
  Increases the number of handled errors recorded for the current session, if
  a session exists.
  */
 - (void)handleHandledErrorEvent;
 
 /**
- Handled Bugsnag.notify() being called with an event with unhandled = YES.
+ Handled LLBugsnag.notify() being called with an event with unhandled = YES.
  Increases the number of unhandled errors recorded for the current session, if
  a session exists.
  */
@@ -86,6 +86,6 @@ extern NSString *const BSGSessionUpdateNotification;
 /**
  * Retrieves the running session, or nil if the session is stopped or has not yet been started/resumed.
  */
-@property (nonatomic, strong, readonly) BugsnagSession *runningSession;
+@property (nonatomic, strong, readonly) LLBugsnagSession *runningSession;
 
 @end

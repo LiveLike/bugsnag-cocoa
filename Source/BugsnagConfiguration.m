@@ -1,9 +1,9 @@
 //
-//  BugsnagConfiguration.m
+//  LLBugsnagConfiguration.m
 //
 //  Created by Conrad Irwin on 2014-10-01.
 //
-//  Copyright (c) 2014 Bugsnag, Inc. All rights reserved.
+//  Copyright (c) 2014 LLBugsnag, Inc. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -37,26 +37,26 @@ static NSString *const kHeaderApiPayloadVersion = @"Bugsnag-Payload-Version";
 static NSString *const kHeaderApiKey = @"Bugsnag-Api-Key";
 static NSString *const kHeaderApiSentAt = @"Bugsnag-Sent-At";
 
-@interface Bugsnag ()
-+ (BugsnagNotifier *)notifier;
+@interface LLBugsnag ()
++ (LLBugsnagNotifier *)notifier;
 @end
 
-@interface BugsnagNotifier ()
-@property BugsnagSessionTracker *sessionTracker;
+@interface LLBugsnagNotifier ()
+@property LLBugsnagSessionTracker *sessionTracker;
 @end
 
-@interface BugsnagConfiguration ()
+@interface LLBugsnagConfiguration ()
 @property(nonatomic, readwrite, strong) NSMutableArray *beforeNotifyHooks;
 @property(nonatomic, readwrite, strong) NSMutableArray *beforeSendBlocks;
 @property(nonatomic, readwrite, strong) NSMutableArray *beforeSendSessionBlocks;
 @end
 
-@implementation BugsnagConfiguration
+@implementation LLBugsnagConfiguration
 
 - (id)init {
     if (self = [super init]) {
-        _metaData = [[BugsnagMetaData alloc] init];
-        _config = [[BugsnagMetaData alloc] init];
+        _metaData = [[LLBugsnagMetaData alloc] init];
+        _config = [[LLBugsnagMetaData alloc] init];
         _apiKey = @"";
         _sessionURL = [NSURL URLWithString:@"https://sessions.bugsnag.com"];
         _autoNotify = YES;
@@ -65,7 +65,7 @@ static NSString *const kHeaderApiSentAt = @"Bugsnag-Sent-At";
         _beforeSendBlocks = [NSMutableArray new];
         _beforeSendSessionBlocks = [NSMutableArray new];
         _notifyReleaseStages = nil;
-        _breadcrumbs = [BugsnagBreadcrumbs new];
+        _breadcrumbs = [LLBugsnagBreadcrumbs new];
         _automaticallyCollectBreadcrumbs = YES;
         _shouldAutoCaptureSessions = YES;
         _reportBackgroundOOMs = NO;
@@ -96,7 +96,7 @@ static NSString *const kHeaderApiSentAt = @"Bugsnag-Sent-At";
        withName:(NSString *)userName
        andEmail:(NSString *)userEmail {
 
-    self.currentUser = [[BugsnagUser alloc] initWithUserId:userId name:userName emailAddress:userEmail];
+    self.currentUser = [[LLBugsnagUser alloc] initWithUserId:userId name:userName emailAddress:userEmail];
 
     [self.metaData addAttribute:BSGKeyId withValue:userId toTabWithName:BSGKeyUser];
     [self.metaData addAttribute:BSGKeyName
@@ -177,7 +177,7 @@ static NSString *const kHeaderApiSentAt = @"Bugsnag-Sent-At";
             return;
 
         _automaticallyCollectBreadcrumbs = automaticallyCollectBreadcrumbs;
-        [[Bugsnag notifier] updateAutomaticBreadcrumbDetectionSettings];
+        [[LLBugsnag notifier] updateAutomaticBreadcrumbDetectionSettings];
     }
 }
 
@@ -235,7 +235,7 @@ static NSString *const kHeaderApiSentAt = @"Bugsnag-Sent-At";
     return @{
              kHeaderApiPayloadVersion: @"4.0",
              kHeaderApiKey: self.apiKey,
-             kHeaderApiSentAt: [BSG_RFC3339DateTool stringFromDate:[NSDate new]]
+             kHeaderApiSentAt: [LLBSG_RFC3339DateTool stringFromDate:[NSDate new]]
     };
 }
 
@@ -243,7 +243,7 @@ static NSString *const kHeaderApiSentAt = @"Bugsnag-Sent-At";
     return @{
              kHeaderApiPayloadVersion: @"1.0",
              kHeaderApiKey: self.apiKey,
-             kHeaderApiSentAt: [BSG_RFC3339DateTool stringFromDate:[NSDate new]]
+             kHeaderApiSentAt: [LLBSG_RFC3339DateTool stringFromDate:[NSDate new]]
              };
 }
 

@@ -30,7 +30,7 @@
 #import "BSG_RFC3339DateTool.h"
 #import "NSError+BSG_SimpleConstructor.h"
 
-@interface BSG_KSJSONCodec ()
+@interface LLBSG_KSJSONCodec ()
 
 #pragma mark Properties
 
@@ -74,7 +74,7 @@
  *
  * @return A new codec.
  */
-+ (BSG_KSJSONCodec *)
++ (LLBSG_KSJSONCodec *)
 codecWithEncodeOptions:(BSG_KSJSONEncodeOption)encodeOptions
          decodeOptions:(BSG_KSJSONDecodeOption)decodeOptions;
 
@@ -103,7 +103,7 @@ codecWithEncodeOptions:(BSG_KSJSONEncodeOption)encodeOptions
  *
  * @return BSG_KSJSON_OK, or an error code.
  */
-int bsg_ksjsoncodecobjc_i_onElement(BSG_KSJSONCodec *codec, NSString *name,
+int bsg_ksjsoncodecobjc_i_onElement(LLBSG_KSJSONCodec *codec, NSString *name,
                                     id element);
 
 /** Called when a new container is encountered while decoding
@@ -116,10 +116,10 @@ int bsg_ksjsoncodecobjc_i_onElement(BSG_KSJSONCodec *codec, NSString *name,
  *
  * @return BSG_KSJSON_OK, or an error code.
  */
-int bsg_ksjsoncodecobjc_i_onBeginContainer(BSG_KSJSONCodec *codec,
+int bsg_ksjsoncodecobjc_i_onBeginContainer(LLBSG_KSJSONCodec *codec,
                                            NSString *name, id container);
 
-int bsg_ksjsoncodecobjc_i_encodeObject(BSG_KSJSONCodec *codec, id object,
+int bsg_ksjsoncodecobjc_i_encodeObject(LLBSG_KSJSONCodec *codec, id object,
                                        NSString *name,
                                        BSG_KSJSONEncodeContext *context);
 
@@ -163,7 +163,7 @@ int bsg_ksjsoncodecobjc_i_addJSONData(const char *const bytes,
 #pragma mark -
 #pragma mark -
 
-@implementation BSG_KSJSONCodec
+@implementation LLBSG_KSJSONCodec
 
 #pragma mark Properties
 
@@ -180,7 +180,7 @@ int bsg_ksjsoncodecobjc_i_addJSONData(const char *const bytes,
 
 #pragma mark Constructors/Destructor
 
-+ (BSG_KSJSONCodec *)
++ (LLBSG_KSJSONCodec *)
 codecWithEncodeOptions:(BSG_KSJSONEncodeOption)encodeOptions
          decodeOptions:(BSG_KSJSONDecodeOption)decodeOptions {
     return [[self alloc] initWithEncodeOptions:encodeOptions
@@ -229,7 +229,7 @@ static inline NSString *stringFromCString(const char *const string) {
 
 #pragma mark Callbacks
 
-int bsg_ksjsoncodecobjc_i_onElement(BSG_KSJSONCodec *codec, NSString *name,
+int bsg_ksjsoncodecobjc_i_onElement(LLBSG_KSJSONCodec *codec, NSString *name,
                                     id element) {
     if (codec->_currentContainer == nil) {
         codec.error = [NSError
@@ -249,7 +249,7 @@ int bsg_ksjsoncodecobjc_i_onElement(BSG_KSJSONCodec *codec, NSString *name,
     return BSG_KSJSON_OK;
 }
 
-int bsg_ksjsoncodecobjc_i_onBeginContainer(BSG_KSJSONCodec *codec,
+int bsg_ksjsoncodecobjc_i_onBeginContainer(LLBSG_KSJSONCodec *codec,
                                            NSString *name, id container) {
     if (codec->_topLevelContainer == nil) {
         codec->_topLevelContainer = container;
@@ -269,7 +269,7 @@ int bsg_ksjsoncodecobjc_i_onBooleanElement(const char *const cName,
                                            void *const userData) {
     NSString *name = stringFromCString(cName);
     id element = @(value);
-    BSG_KSJSONCodec *codec = (__bridge BSG_KSJSONCodec *)userData;
+    LLBSG_KSJSONCodec *codec = (__bridge LLBSG_KSJSONCodec *)userData;
     return bsg_ksjsoncodecobjc_i_onElement(codec, name, element);
 }
 
@@ -278,7 +278,7 @@ int bsg_ksjsoncodecobjc_i_onFloatingPointElement(const char *const cName,
                                                  void *const userData) {
     NSString *name = stringFromCString(cName);
     id element = @(value);
-    BSG_KSJSONCodec *codec = (__bridge BSG_KSJSONCodec *)userData;
+    LLBSG_KSJSONCodec *codec = (__bridge LLBSG_KSJSONCodec *)userData;
     return bsg_ksjsoncodecobjc_i_onElement(codec, name, element);
 }
 
@@ -287,14 +287,14 @@ int bsg_ksjsoncodecobjc_i_onIntegerElement(const char *const cName,
                                            void *const userData) {
     NSString *name = stringFromCString(cName);
     id element = @(value);
-    BSG_KSJSONCodec *codec = (__bridge BSG_KSJSONCodec *)userData;
+    LLBSG_KSJSONCodec *codec = (__bridge LLBSG_KSJSONCodec *)userData;
     return bsg_ksjsoncodecobjc_i_onElement(codec, name, element);
 }
 
 int bsg_ksjsoncodecobjc_i_onNullElement(const char *const cName,
                                         void *const userData) {
     NSString *name = stringFromCString(cName);
-    BSG_KSJSONCodec *codec = (__bridge BSG_KSJSONCodec *)userData;
+    LLBSG_KSJSONCodec *codec = (__bridge LLBSG_KSJSONCodec *)userData;
 
     if ((codec->_ignoreNullsInArrays &&
          [codec->_currentContainer isKindOfClass:[NSArray class]]) ||
@@ -312,7 +312,7 @@ int bsg_ksjsoncodecobjc_i_onStringElement(const char *const cName,
     NSString *name = stringFromCString(cName);
     id element =
         [NSString stringWithCString:value encoding:NSUTF8StringEncoding];
-    BSG_KSJSONCodec *codec = (__bridge BSG_KSJSONCodec *)userData;
+    LLBSG_KSJSONCodec *codec = (__bridge LLBSG_KSJSONCodec *)userData;
     return bsg_ksjsoncodecobjc_i_onElement(codec, name, element);
 }
 
@@ -320,7 +320,7 @@ int bsg_ksjsoncodecobjc_i_onBeginObject(const char *const cName,
                                         void *const userData) {
     NSString *name = stringFromCString(cName);
     id container = [NSMutableDictionary dictionary];
-    BSG_KSJSONCodec *codec = (__bridge BSG_KSJSONCodec *)userData;
+    LLBSG_KSJSONCodec *codec = (__bridge LLBSG_KSJSONCodec *)userData;
     return bsg_ksjsoncodecobjc_i_onBeginContainer(codec, name, container);
 }
 
@@ -328,12 +328,12 @@ int bsg_ksjsoncodecobjc_i_onBeginArray(const char *const cName,
                                        void *const userData) {
     NSString *name = stringFromCString(cName);
     id container = [NSMutableArray array];
-    BSG_KSJSONCodec *codec = (__bridge BSG_KSJSONCodec *)userData;
+    LLBSG_KSJSONCodec *codec = (__bridge LLBSG_KSJSONCodec *)userData;
     return bsg_ksjsoncodecobjc_i_onBeginContainer(codec, name, container);
 }
 
 int bsg_ksjsoncodecobjc_i_onEndContainer(void *const userData) {
-    BSG_KSJSONCodec *codec = (__bridge BSG_KSJSONCodec *)userData;
+    LLBSG_KSJSONCodec *codec = (__bridge LLBSG_KSJSONCodec *)userData;
 
     if ([codec->_containerStack count] == 0) {
         codec.error = [NSError
@@ -366,7 +366,7 @@ int bsg_ksjsoncodecobjc_i_addJSONData(const char *const bytes,
     return BSG_KSJSON_OK;
 }
 
-int bsg_ksjsoncodecobjc_i_encodeObject(BSG_KSJSONCodec *codec, id object,
+int bsg_ksjsoncodecobjc_i_encodeObject(LLBSG_KSJSONCodec *codec, id object,
                                        NSString *name,
                                        BSG_KSJSONEncodeContext *context) {
     int result;
@@ -461,7 +461,7 @@ int bsg_ksjsoncodecobjc_i_encodeObject(BSG_KSJSONCodec *codec, id object,
     }
 
     if ([object isKindOfClass:[NSDate class]]) {
-        NSData *data = [[BSG_RFC3339DateTool stringFromDate:object]
+        NSData *data = [[LLBSG_RFC3339DateTool stringFromDate:object]
             dataUsingEncoding:NSUTF8StringEncoding];
         return bsg_ksjsonaddStringElement(context, cName, [data bytes],
                                           [data length]);
@@ -490,7 +490,7 @@ int bsg_ksjsoncodecobjc_i_encodeObject(BSG_KSJSONCodec *codec, id object,
     bsg_ksjsonbeginEncode(
         &JSONContext, encodeOptions & BSG_KSJSONEncodeOptionPretty,
         bsg_ksjsoncodecobjc_i_addJSONData, (__bridge void *)data);
-    BSG_KSJSONCodec *codec =
+    LLBSG_KSJSONCodec *codec =
         [self codecWithEncodeOptions:encodeOptions decodeOptions:0];
 
     int result =

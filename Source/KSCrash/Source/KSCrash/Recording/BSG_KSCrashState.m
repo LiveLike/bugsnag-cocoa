@@ -179,7 +179,7 @@ bool bsg_kscrashstate_i_loadState(BSG_KSCrash_State *const context,
         BSG_KSLOG_ERROR(@"%s: Could not load file: %@", path, error);
         return false;
     }
-    id objectContext = [BSG_KSJSONCodec decode:data options:0 error:&error];
+    id objectContext = [LLBSG_KSJSONCodec decode:data options:0 error:&error];
     if (error != nil) {
         BSG_KSLOG_ERROR(@"%s: Could not load file: %@", path, error);
         return false;

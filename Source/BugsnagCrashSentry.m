@@ -1,5 +1,5 @@
 //
-//  BugsnagCrashSentry.m
+//  LLBugsnagCrashSentry.m
 //  Pods
 //
 //  Created by Jamie Lynch on 11/08/2017.
@@ -15,24 +15,24 @@
 
 NSUInteger const BSG_MAX_STORED_REPORTS = 12;
 
-@implementation BugsnagCrashSentry
+@implementation LLBugsnagCrashSentry
 
-- (void)install:(BugsnagConfiguration *)config
-      apiClient:(BugsnagErrorReportApiClient *)apiClient
+- (void)install:(LLBugsnagConfiguration *)config
+      apiClient:(LLBugsnagErrorReportApiClient *)apiClient
         onCrash:(BSGReportCallback)onCrash {
 
-    BugsnagSink *sink = [[BugsnagSink alloc] initWithApiClient:apiClient];
-    [BSG_KSCrash sharedInstance].sink = sink;
-    [BSG_KSCrash sharedInstance].introspectMemory = YES;
-    [BSG_KSCrash sharedInstance].deleteBehaviorAfterSendAll =
+    LLBugsnagSink *sink = [[LLBugsnagSink alloc] initWithApiClient:apiClient];
+    [LLBSG_KSCrash sharedInstance].sink = sink;
+    [LLBSG_KSCrash sharedInstance].introspectMemory = YES;
+    [LLBSG_KSCrash sharedInstance].deleteBehaviorAfterSendAll =
         BSG_KSCDeleteOnSucess;
-    [BSG_KSCrash sharedInstance].onCrash = onCrash;
-    [BSG_KSCrash sharedInstance].maxStoredReports = BSG_MAX_STORED_REPORTS;
+    [LLBSG_KSCrash sharedInstance].onCrash = onCrash;
+    [LLBSG_KSCrash sharedInstance].maxStoredReports = BSG_MAX_STORED_REPORTS;
 
     if (!config.autoNotify) {
         bsg_kscrash_setHandlingCrashTypes(BSG_KSCrashTypeUserReported);
     }
-    if (![[BSG_KSCrash sharedInstance] install]) {
+    if (![[LLBSG_KSCrash sharedInstance] install]) {
         bsg_log_err(@"Failed to install crash handler. No exceptions will be "
                     @"reported!");
     }
@@ -50,7 +50,7 @@ NSUInteger const BSG_MAX_STORED_REPORTS = 12;
                      config:(NSDictionary *)config
                discardDepth:(int)depth {
 
-    [[BSG_KSCrash sharedInstance] reportUserException:reportName
+    [[LLBSG_KSCrash sharedInstance] reportUserException:reportName
                                                reason:reportMessage
                                     originalException:ex
                                          handledState:handledState

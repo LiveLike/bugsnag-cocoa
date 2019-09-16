@@ -1,5 +1,5 @@
 //
-//  BugsnagCrashSentry.h
+//  LLBugsnagCrashSentry.h
 //  Pods
 //
 //  Created by Jamie Lynch on 11/08/2017.
@@ -12,10 +12,10 @@
 #import "BugsnagConfiguration.h"
 #import "BugsnagErrorReportApiClient.h"
 
-@interface BugsnagCrashSentry : NSObject
+@interface LLBugsnagCrashSentry : NSObject
 
-- (void)install:(BugsnagConfiguration *)config
-      apiClient:(BugsnagErrorReportApiClient *)apiClient
+- (void)install:(LLBugsnagConfiguration *)config
+      apiClient:(LLBugsnagErrorReportApiClient *)apiClient
         onCrash:(BSGReportCallback)onCrash;
 
 - (void)reportUserException:(NSString *)reportName

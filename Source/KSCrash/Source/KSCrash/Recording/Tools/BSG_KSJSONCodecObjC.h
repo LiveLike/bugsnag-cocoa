@@ -59,7 +59,7 @@ typedef enum {
 /**
  * Encodes and decodes UTF-8 JSON data.
  */
-@interface BSG_KSJSONCodec : NSObject
+@interface LLBSG_KSJSONCodec : NSObject
 
 /** Encode an object to JSON data.
  *

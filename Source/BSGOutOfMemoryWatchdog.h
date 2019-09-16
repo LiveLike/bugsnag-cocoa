@@ -1,8 +1,8 @@
 #import <Foundation/Foundation.h>
 
-@class BugsnagConfiguration;
+@class LLBugsnagConfiguration;
 
-@interface BSGOutOfMemoryWatchdog : NSObject
+@interface LLBSGOutOfMemoryWatchdog : NSObject
 
 @property(nonatomic, strong, readonly) NSDictionary *lastBootCachedFileInfo;
 
@@ -10,7 +10,7 @@
  * Create a new watchdog using the sentinel path to store app/device state
  */
 - (instancetype)initWithSentinelPath:(NSString *)sentinelFilePath
-                       configuration:(BugsnagConfiguration *)config NS_DESIGNATED_INITIALIZER;
+                       configuration:(LLBugsnagConfiguration *)config NS_DESIGNATED_INITIALIZER;
 /**
  * @return YES if the app was killed to end the previous app launch
  */

@@ -1,5 +1,5 @@
 //
-//  BugsnagErrorReportApiClient.m
+//  LLBugsnagErrorReportApiClient.m
 //  Pods
 //
 //  Created by Jamie Lynch on 11/08/2017.
@@ -13,23 +13,23 @@
 #import "BugsnagSink.h"
 #import "BugsnagKeys.h"
 
-@interface BSGDeliveryOperation : NSOperation
+@interface LLBSGDeliveryOperation : NSOperation
 @end
 
-@implementation BugsnagErrorReportApiClient
+@implementation LLBugsnagErrorReportApiClient
 
 - (NSOperation *)deliveryOperation {
-    return [BSGDeliveryOperation new];
+    return [LLBSGDeliveryOperation new];
 }
 
 @end
 
-@implementation BSGDeliveryOperation
+@implementation LLBSGDeliveryOperation
 
 - (void)main {
     @autoreleasepool {
         @try {
-            [[BSG_KSCrash sharedInstance]
+            [[LLBSG_KSCrash sharedInstance]
                     sendAllReportsWithCompletion:^(NSUInteger sentReportCount,
                             BOOL completed, NSError *error) {
                         if (error) {

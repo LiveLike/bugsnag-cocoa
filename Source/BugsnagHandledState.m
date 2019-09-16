@@ -1,9 +1,9 @@
 //
-//  BugsnagHandledState.m
-//  Bugsnag
+//  LLBugsnagHandledState.m
+//  LLBugsnag
 //
 //  Created by Jamie Lynch on 21/09/2017.
-//  Copyright © 2017 Bugsnag. All rights reserved.
+//  Copyright © 2017 LLBugsnag. All rights reserved.
 //
 
 #import "BugsnagHandledState.h"
@@ -25,7 +25,7 @@ static NSString *const kHandledException = @"handledException";
 static NSString *const kUserSpecifiedSeverity = @"userSpecifiedSeverity";
 static NSString *const kUserCallbackSetSeverity = @"userCallbackSetSeverity";
 
-@implementation BugsnagHandledState
+@implementation LLBugsnagHandledState
 
 + (instancetype)handledStateWithSeverityReason:
     (SeverityReasonType)severityReason {
@@ -66,7 +66,7 @@ static NSString *const kUserCallbackSetSeverity = @"userCallbackSetSeverity";
         break;
     }
 
-    return [[BugsnagHandledState alloc] initWithSeverityReason:severityReason
+    return [[LLBugsnagHandledState alloc] initWithSeverityReason:severityReason
                                                       severity:severity
                                                      unhandled:unhandled
                                                      attrValue:attrValue];
@@ -96,7 +96,7 @@ static NSString *const kUserCallbackSetSeverity = @"userCallbackSetSeverity";
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super init]) {
         _unhandled = [dict[kUnhandled] boolValue];
-        _severityReasonType = [BugsnagHandledState
+        _severityReasonType = [LLBugsnagHandledState
             severityReasonFromString:dict[kSeverityReasonType]];
         _originalSeverity = BSGParseSeverity(dict[kOriginalSeverity]);
         _currentSeverity = BSGParseSeverity(dict[kCurrentSeverity]);
@@ -162,7 +162,7 @@ static NSString *const kUserCallbackSetSeverity = @"userCallbackSetSeverity";
     NSMutableDictionary *dict = [NSMutableDictionary new];
     dict[kUnhandled] = @(self.unhandled);
     dict[kSeverityReasonType] =
-        [BugsnagHandledState stringFromSeverityReason:self.severityReasonType];
+        [LLBugsnagHandledState stringFromSeverityReason:self.severityReasonType];
     dict[kOriginalSeverity] = BSGFormatSeverity(self.originalSeverity);
     dict[kCurrentSeverity] = BSGFormatSeverity(self.currentSeverity);
     dict[kAttrKey] = self.attrKey;

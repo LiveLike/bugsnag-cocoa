@@ -1,5 +1,5 @@
 //
-//  BSG_KSCrash.m
+//  LLBSG_KSCrash.m
 //
 //  Created by Karl Stenerud on 2012-01-28.
 //
@@ -60,7 +60,7 @@
 #pragma mark - Globals -
 // ============================================================================
 
-@interface BSG_KSCrash ()
+@interface LLBSG_KSCrash ()
 
 @property(nonatomic, readwrite, retain) NSString *bundleName;
 @property(nonatomic, readwrite, retain) NSString *nextCrashID;
@@ -72,14 +72,14 @@
 @property(nonatomic, readwrite, retain) id<BSG_KSCrashReportFilter> sink;
 @property(nonatomic, readwrite, retain) NSString *logFilePath;
 @property(nonatomic, readwrite, retain)
-    BSG_KSCrashReportStore *crashReportStore;
+    LLBSG_KSCrashReportStore *crashReportStore;
 @property(nonatomic, readwrite, assign) BSGReportCallback onCrash;
 @property(nonatomic, readwrite, assign) bool printTraceToStdout;
 @property(nonatomic, readwrite, assign) int maxStoredReports;
 
 @end
 
-@implementation BSG_KSCrash
+@implementation LLBSG_KSCrash
 
 // ============================================================================
 #pragma mark - Properties -
@@ -107,7 +107,7 @@
 #pragma mark - Lifecycle -
 // ============================================================================
 
-IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(BSG_KSCrash)
+IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(LLBSG_KSCrash)
 
 - (id)init {
     return [self
@@ -118,7 +118,7 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(BSG_KSCrash)
     if ((self = [super init])) {
         self.bundleName = [[NSBundle mainBundle] infoDictionary][@"CFBundleName"];
 
-        NSString *storePath = [BugsnagFileStore findReportStorePath:reportFilesDirectory];
+        NSString *storePath = [LLBugsnagFileStore findReportStorePath:reportFilesDirectory];
 
         if (!storePath) {
             BSG_KSLOG_ERROR(
@@ -127,7 +127,7 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(BSG_KSCrash)
         }
 
         self.nextCrashID = [NSUUID UUID].UUIDString;
-        self.crashReportStore = [BSG_KSCrashReportStore storeWithPath:storePath];
+        self.crashReportStore = [LLBSG_KSCrashReportStore storeWithPath:storePath];
         self.deleteBehaviorAfterSendAll = BSG_KSCDeleteAlways;
         self.introspectMemory = YES;
         self.maxStoredReports = 5;
@@ -149,7 +149,7 @@ IMPLEMENT_EXCLUSIVE_SHARED_INSTANCE(BSG_KSCrash)
     NSData *userInfoJSON = nil;
     if (userInfo != nil) {
         userInfoJSON = [self
-            nullTerminated:[BSG_KSJSONCodec encode:userInfo
+            nullTerminated:[LLBSG_KSJSONCodec encode:userInfo
                                            options:BSG_KSJSONEncodeOptionSorted
                                              error:&error]];
         if (error != NULL) {
@@ -415,7 +415,7 @@ BSG_SYNTHESIZE_CRASH_STATE_PROPERTY(BOOL, crashedLastLaunch)
 
 - (const char *)encodeAsJSONString:(id)object {
     NSError *error = nil;
-    NSData *jsonData = [BSG_KSJSONCodec encode:object options:0 error:&error];
+    NSData *jsonData = [LLBSG_KSJSONCodec encode:object options:0 error:&error];
     if (jsonData == nil || error != nil) {
         BSG_KSLOG_ERROR(@"Error encoding object to JSON: %@", error);
         // we can still record other useful information from the report

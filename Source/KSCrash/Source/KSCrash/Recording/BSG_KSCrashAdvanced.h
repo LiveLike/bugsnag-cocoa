@@ -29,9 +29,9 @@
 #import "BSG_KSCrashReportStore.h"
 
 /**
- * Advanced interface to the BSG_KSCrash system.
+ * Advanced interface to the LLBSG_KSCrash system.
  */
-@interface BSG_KSCrash (Advanced)
+@interface LLBSG_KSCrash (Advanced)
 
 #pragma mark - Information -
 
@@ -80,12 +80,12 @@
 
 #pragma mark - Configuration -
 
-/** Init BSG_KSCrash instance with custom report files directory path. */
+/** Init LLBSG_KSCrash instance with custom report files directory path. */
 - (id)initWithReportFilesDirectory:(NSString *)reportFilesDirectory;
 
 /** Store containing all crash reports. */
 @property(nonatomic, readwrite, retain)
-    BSG_KSCrashReportStore *crashReportStore;
+    LLBSG_KSCrashReportStore *crashReportStore;
 
 /** The report sink where reports get sent.
  * This MUST be set or else the reporter will not send reports (although it will

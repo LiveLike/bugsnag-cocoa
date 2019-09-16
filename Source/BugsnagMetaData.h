@@ -1,9 +1,9 @@
 //
-//  BugsnagMetaData.h
+//  LLBugsnagMetaData.h
 //
 //  Created by Conrad Irwin on 2014-10-01.
 //
-//  Copyright (c) 2014 Bugsnag, Inc. All rights reserved.
+//  Copyright (c) 2014 LLBugsnag, Inc. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,7 +28,7 @@
 
 @protocol BugsnagMetaDataDelegate;
 
-@interface BugsnagMetaData : NSObject <NSMutableCopying>
+@interface LLBugsnagMetaData : NSObject <NSMutableCopying>
 
 - (instancetype _Nonnull)initWithDictionary:(NSMutableDictionary *_Nonnull)dict;
 
@@ -48,5 +48,5 @@
 
 @protocol BugsnagMetaDataDelegate <NSObject>
 
-- (void)metaDataChanged:(BugsnagMetaData *_Nonnull)metaData;
+- (void)metaDataChanged:(LLBugsnagMetaData *_Nonnull)metaData;
 @end

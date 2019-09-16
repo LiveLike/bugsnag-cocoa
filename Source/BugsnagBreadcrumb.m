@@ -1,9 +1,9 @@
 //
-//  BugsnagBreadcrumb.m
+//  LLBugsnagBreadcrumb.m
 //
 //  Created by Delisa Mason on 9/16/15.
 //
-//  Copyright (c) 2015 Bugsnag, Inc. All rights reserved.
+//  Copyright (c) 2015 LLBugsnag, Inc. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -52,18 +52,18 @@ NSString *BSGBreadcrumbTypeValue(BSGBreadcrumbType type) {
     }
 }
 
-@interface BugsnagBreadcrumbs ()
+@interface LLBugsnagBreadcrumbs ()
 
 @property(nonatomic, readwrite, strong) NSMutableArray *breadcrumbs;
 @property(nonatomic, readonly, strong) dispatch_queue_t readWriteQueue;
 @end
 
-@interface BugsnagBreadcrumb ()
+@interface LLBugsnagBreadcrumb ()
 
 - (NSDictionary *_Nullable)objectValue;
 @end
 
-@implementation BugsnagBreadcrumb
+@implementation LLBugsnagBreadcrumb
 
 - (instancetype)init {
     if (self = [super init]) {
@@ -82,7 +82,7 @@ NSString *BSGBreadcrumbTypeValue(BSGBreadcrumbType type) {
 - (NSDictionary *)objectValue {
     @synchronized (self) {
         NSString *timestamp =
-        [[Bugsnag payloadDateFormatter] stringFromDate:_timestamp];
+        [[LLBugsnag payloadDateFormatter] stringFromDate:_timestamp];
         if (timestamp && _name.length > 0) {
             NSMutableDictionary *metadata = [NSMutableDictionary new];
             for (NSString *key in _metadata) {
@@ -164,7 +164,7 @@ NSString *BSGBreadcrumbTypeValue(BSGBreadcrumbType type) {
 }
 
 + (instancetype)breadcrumbWithBlock:(BSGBreadcrumbConfiguration)block {
-    BugsnagBreadcrumb *crumb = [self new];
+    LLBugsnagBreadcrumb *crumb = [self new];
     if (block) {
         block(crumb);
     }
@@ -176,7 +176,7 @@ NSString *BSGBreadcrumbTypeValue(BSGBreadcrumbType type) {
 
 @end
 
-@implementation BugsnagBreadcrumbs
+@implementation LLBugsnagBreadcrumbs
 
 NSUInteger BreadcrumbsDefaultCapacity = 20;
 
@@ -198,17 +198,17 @@ NSUInteger BreadcrumbsDefaultCapacity = 20;
 }
 
 - (void)addBreadcrumb:(NSString *)breadcrumbMessage {
-    [self addBreadcrumbWithBlock:^(BugsnagBreadcrumb *_Nonnull crumb) {
+    [self addBreadcrumbWithBlock:^(LLBugsnagBreadcrumb *_Nonnull crumb) {
       crumb.metadata = @{BSGKeyMessage : breadcrumbMessage};
     }];
 }
 
 - (void)addBreadcrumbWithBlock:
-    (void (^_Nonnull)(BugsnagBreadcrumb *_Nonnull))block {
+    (void (^_Nonnull)(LLBugsnagBreadcrumb *_Nonnull))block {
     if (self.capacity == 0) {
         return;
     }
-    BugsnagBreadcrumb *crumb = [BugsnagBreadcrumb breadcrumbWithBlock:block];
+    LLBugsnagBreadcrumb *crumb = [LLBugsnagBreadcrumb breadcrumbWithBlock:block];
     if (crumb) {
         [self resizeToFitCapacity:self.capacity - 1];
         dispatch_barrier_sync(self.readWriteQueue, ^{
@@ -278,9 +278,9 @@ NSUInteger BreadcrumbsDefaultCapacity = 20;
     return self.breadcrumbs.count;
 }
 
-- (BugsnagBreadcrumb *)objectAtIndexedSubscript:(NSUInteger)index {
+- (LLBugsnagBreadcrumb *)objectAtIndexedSubscript:(NSUInteger)index {
     if (index < [self count]) {
-        __block BugsnagBreadcrumb *crumb = nil;
+        __block LLBugsnagBreadcrumb *crumb = nil;
         dispatch_barrier_sync(self.readWriteQueue, ^{
           crumb = self.breadcrumbs[index];
         });
@@ -296,7 +296,7 @@ NSUInteger BreadcrumbsDefaultCapacity = 20;
     __block NSMutableArray *contents =
         [[NSMutableArray alloc] initWithCapacity:[self count]];
     dispatch_barrier_sync(self.readWriteQueue, ^{
-      for (BugsnagBreadcrumb *crumb in self.breadcrumbs) {
+      for (LLBugsnagBreadcrumb *crumb in self.breadcrumbs) {
           NSDictionary *objectValue = [crumb objectValue];
           NSError *error = nil;
           @try {

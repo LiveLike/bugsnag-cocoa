@@ -1,9 +1,9 @@
 //
 //  BugsnagKSCrashSysInfoParser.m
-//  Bugsnag
+//  LLBugsnag
 //
 //  Created by Jamie Lynch on 28/11/2017.
-//  Copyright © 2017 Bugsnag. All rights reserved.
+//  Copyright © 2017 LLBugsnag. All rights reserved.
 //
 
 #import "BugsnagKSCrashSysInfoParser.h"
@@ -96,11 +96,11 @@ NSDictionary *BSGParseAppState(NSDictionary *report, NSString *preferredVersion)
     NSString *version = preferredVersion ?: report[@"CFBundleShortVersionString"];
 
     BSGDictSetSafeObject(app, report[@"CFBundleVersion"], @"bundleVersion");
-    BSGDictSetSafeObject(app, [Bugsnag configuration].releaseStage,
+    BSGDictSetSafeObject(app, [LLBugsnag configuration].releaseStage,
                          BSGKeyReleaseStage);
     BSGDictSetSafeObject(app, version, BSGKeyVersion);
     
-    BSGDictSetSafeObject(app, [Bugsnag configuration].codeBundleId, @"codeBundleId");
+    BSGDictSetSafeObject(app, [LLBugsnag configuration].codeBundleId, @"codeBundleId");
     
     NSString *notifierType;
 #if TARGET_OS_TV
@@ -111,8 +111,8 @@ NSDictionary *BSGParseAppState(NSDictionary *report, NSString *preferredVersion)
     notifierType = @"macOS";
 #endif
     
-    if ([Bugsnag configuration].notifierType) {
-        notifierType = [Bugsnag configuration].notifierType;
+    if ([LLBugsnag configuration].notifierType) {
+        notifierType = [LLBugsnag configuration].notifierType;
     }
     BSGDictSetSafeObject(app, notifierType, @"type");
     return app;

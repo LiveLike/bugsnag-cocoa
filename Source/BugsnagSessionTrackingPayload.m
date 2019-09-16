@@ -1,9 +1,9 @@
 //
-//  BugsnagSessionTrackingPayload.m
-//  Bugsnag
+//  LLBugsnagSessionTrackingPayload.m
+//  LLBugsnag
 //
 //  Created by Jamie Lynch on 27/11/2017.
-//  Copyright © 2017 Bugsnag. All rights reserved.
+//  Copyright © 2017 LLBugsnag. All rights reserved.
 //
 
 #import "BugsnagSessionTrackingPayload.h"
@@ -14,13 +14,13 @@
 #import "BSG_KSSystemInfo.h"
 #import "BugsnagKSCrashSysInfoParser.h"
 
-@interface Bugsnag ()
-+ (BugsnagNotifier *)notifier;
+@interface LLBugsnag ()
++ (LLBugsnagNotifier *)notifier;
 @end
 
-@implementation BugsnagSessionTrackingPayload
+@implementation LLBugsnagSessionTrackingPayload
 
-- (instancetype)initWithSessions:(NSArray<BugsnagSession *> *)sessions {
+- (instancetype)initWithSessions:(NSArray<LLBugsnagSession *> *)sessions {
     if (self = [super init]) {
         _sessions = sessions;
     }
@@ -32,14 +32,14 @@
     NSMutableDictionary *dict = [NSMutableDictionary new];
     NSMutableArray *sessionData = [NSMutableArray new];
     
-    for (BugsnagSession *session in self.sessions) {
+    for (LLBugsnagSession *session in self.sessions) {
         [sessionData addObject:[session toJson]];
     }
     BSGDictInsertIfNotNil(dict, sessionData, @"sessions");
-    BSGDictSetSafeObject(dict, [Bugsnag notifier].details, BSGKeyNotifier);
+    BSGDictSetSafeObject(dict, [LLBugsnag notifier].details, BSGKeyNotifier);
     
-    NSDictionary *systemInfo = [BSG_KSSystemInfo systemInfo];
-    BSGDictSetSafeObject(dict, BSGParseAppState(systemInfo, [Bugsnag configuration].appVersion), @"app");
+    NSDictionary *systemInfo = [LLBSG_KSSystemInfo systemInfo];
+    BSGDictSetSafeObject(dict, BSGParseAppState(systemInfo, [LLBugsnag configuration].appVersion), @"app");
     BSGDictSetSafeObject(dict, BSGParseDeviceState(systemInfo), @"device");
     return dict;
 }

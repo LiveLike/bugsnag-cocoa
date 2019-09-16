@@ -1,9 +1,9 @@
 //
-//  BugsnagSink.m
+//  LLBugsnagSink.m
 //
 //  Created by Conrad Irwin on 2014-10-01.
 //
-//  Copyright (c) 2014 Bugsnag, Inc. All rights reserved.
+//  Copyright (c) 2014 LLBugsnag, Inc. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,22 +31,22 @@
 #import "BugsnagKeys.h"
 #import "BSG_KSSystemInfo.h"
 
-// This is private in Bugsnag, but really we want package private so define
+// This is private in LLBugsnag, but really we want package private so define
 // it here.
-@interface Bugsnag ()
-+ (BugsnagNotifier *)notifier;
+@interface LLBugsnag ()
++ (LLBugsnagNotifier *)notifier;
 @end
 
-@implementation BugsnagSink
+@implementation LLBugsnagSink
 
-- (instancetype)initWithApiClient:(BugsnagErrorReportApiClient *)apiClient {
+- (instancetype)initWithApiClient:(LLBugsnagErrorReportApiClient *)apiClient {
     if (self = [super init]) {
         self.apiClient = apiClient;
     }
     return self;
 }
 
-// Entry point called by BSG_KSCrash when a report needs to be sent. Handles
+// Entry point called by LLBSG_KSCrash when a report needs to be sent. Handles
 // report filtering based on the configuration options for
 // `notifyReleaseStages`. Removes all reports not meeting at least one of the
 // following conditions:
@@ -59,18 +59,18 @@
 - (void)filterReports:(NSDictionary <NSString *, NSDictionary *> *)reports
          onCompletion:(BSG_KSCrashReportFilterCompletion)onCompletion {
     NSMutableArray *bugsnagReports = [NSMutableArray new];
-    BugsnagConfiguration *configuration = [Bugsnag configuration];
+    LLBugsnagConfiguration *configuration = [LLBugsnag configuration];
     
     for (NSString *fileKey in reports) {
         NSDictionary *report = reports[fileKey];
-        BugsnagCrashReport *bugsnagReport = [[BugsnagCrashReport alloc] initWithKSReport:report
+        LLBugsnagCrashReport *bugsnagReport = [[LLBugsnagCrashReport alloc] initWithKSReport:report
                                                                             fileMetadata:fileKey];
         BOOL incompleteReport = ([bugsnagReport isIncomplete]
                                  || ![@"standard" isEqualToString:[report valueForKeyPath:@"report.type"]]
                                  || [[report objectForKey:@"incomplete"] boolValue]);
         
         if (incompleteReport) { // append app/device data as this is unlikely to change between sessions
-            NSDictionary *sysInfo = [BSG_KSSystemInfo systemInfo];
+            NSDictionary *sysInfo = [LLBSG_KSSystemInfo systemInfo];
             
             // reset any existing data as it will be corrupted/nil
             bugsnagReport.appState = @{};
@@ -145,17 +145,17 @@
 }
 
 
-// Generates the payload for notifying Bugsnag
+// Generates the payload for notifying LLBugsnag
 - (NSDictionary *)getBodyFromReports:(NSArray *)reports {
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-    BSGDictSetSafeObject(data, [Bugsnag notifier].details, BSGKeyNotifier);
-    BSGDictSetSafeObject(data, [Bugsnag notifier].configuration.apiKey, BSGKeyApiKey);
+    BSGDictSetSafeObject(data, [LLBugsnag notifier].details, BSGKeyNotifier);
+    BSGDictSetSafeObject(data, [LLBugsnag notifier].configuration.apiKey, BSGKeyApiKey);
     BSGDictSetSafeObject(data, @"4.0", @"payloadVersion");
 
     NSMutableArray *formatted =
             [[NSMutableArray alloc] initWithCapacity:[reports count]];
 
-    for (BugsnagCrashReport *report in reports) {
+    for (LLBugsnagCrashReport *report in reports) {
         BSGArrayAddSafeObject(formatted, [report toJson]);
     }
 

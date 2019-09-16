@@ -1,6 +1,6 @@
 //
 // Created by Jamie Lynch on 30/11/2017.
-// Copyright (c) 2017 Bugsnag. All rights reserved.
+// Copyright (c) 2017 LLBugsnag. All rights reserved.
 //
 
 #import "BugsnagSessionFileStore.h"
@@ -8,14 +8,14 @@
 
 static NSString *const kSessionStoreSuffix = @"-Session-";
 
-@implementation BugsnagSessionFileStore
+@implementation LLBugsnagSessionFileStore
 
-+ (BugsnagSessionFileStore *)storeWithPath:(NSString *)path {
++ (LLBugsnagSessionFileStore *)storeWithPath:(NSString *)path {
     return [[self alloc] initWithPath:path
                        filenameSuffix:kSessionStoreSuffix];
 }
 
-- (void)write:(BugsnagSession *)session {
+- (void)write:(LLBugsnagSession *)session {
     // serialise session
     NSString *filepath = [self pathToFileWithId:session.sessionId];
     NSDictionary *dict = [session toJson];

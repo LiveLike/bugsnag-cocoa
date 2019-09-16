@@ -1,9 +1,9 @@
 //
-//  BSGConnectivity.h
+//  LLBSGConnectivity.h
 //
 //  Created by Jamie Lynch on 2017-09-04.
 //
-//  Copyright (c) 2017 Bugsnag, Inc. All rights reserved.
+//  Copyright (c) 2017 LLBugsnag, Inc. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,11 +27,11 @@
 #import <Foundation/Foundation.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 
-@class BSGConnectivity;
+@class LLBSGConnectivity;
 
-typedef void (^ConnectivityChange)(BSGConnectivity *connectivity);
+typedef void (^ConnectivityChange)(LLBSGConnectivity *connectivity);
 
-@interface BSGConnectivity : NSObject
+@interface LLBSGConnectivity : NSObject
 
 @property(nonatomic, copy) ConnectivityChange connectivityChangeBlock;
 

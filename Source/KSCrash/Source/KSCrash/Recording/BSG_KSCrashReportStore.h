@@ -1,5 +1,5 @@
 //
-//  BSG_KSCrashReportStore.h
+//  LLBSG_KSCrashReportStore.h
 //
 //  Created by Karl Stenerud on 2012-02-05.
 //
@@ -31,9 +31,9 @@
 /**
  * Manages a store of crash reports.
  */
-@interface BSG_KSCrashReportStore : BugsnagFileStore
+@interface LLBSG_KSCrashReportStore : LLBugsnagFileStore
 
-+ (BSG_KSCrashReportStore *)storeWithPath:(NSString *)path;
++ (LLBSG_KSCrashReportStore *)storeWithPath:(NSString *)path;
 
 
 /** Full path to the recrash report with the specified ID.

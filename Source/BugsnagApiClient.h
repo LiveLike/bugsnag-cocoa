@@ -1,17 +1,17 @@
 //
 // Created by Jamie Lynch on 04/12/2017.
-// Copyright (c) 2017 Bugsnag. All rights reserved.
+// Copyright (c) 2017 LLBugsnag. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@class BugsnagConfiguration;
+@class LLBugsnagConfiguration;
 
 typedef void (^RequestCompletion)(NSUInteger reportCount, BOOL success, NSError *error);
 
-@interface BugsnagApiClient : NSObject
+@interface LLBugsnagApiClient : NSObject
 
-- (instancetype)initWithConfig:(BugsnagConfiguration *)configuration
+- (instancetype)initWithConfig:(LLBugsnagConfiguration *)configuration
                      queueName:(NSString *)queueName;
 
 /**
@@ -28,7 +28,7 @@ typedef void (^RequestCompletion)(NSUInteger reportCount, BOOL success, NSError 
      onCompletion:(RequestCompletion)onCompletion;
 
 @property(readonly) NSOperationQueue *sendQueue;
-@property(readonly) BugsnagConfiguration *config;
+@property(readonly) LLBugsnagConfiguration *config;
 
 
 @end

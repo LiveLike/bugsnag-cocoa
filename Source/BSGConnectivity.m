@@ -1,9 +1,9 @@
 //
-//  BSGConnectivity.m
+//  LLBSGConnectivity.m
 //
 //  Created by Jamie Lynch on 2017-09-04.
 //
-//  Copyright (c) 2017 Bugsnag, Inc. All rights reserved.
+//  Copyright (c) 2017 LLBugsnag, Inc. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -39,7 +39,7 @@ static void BSGConnectivityCallback(SCNetworkReachabilityRef target,
     callbackBlock(flags);
 }
 
-@interface BSGConnectivity ()
+@interface LLBSGConnectivity ()
 
 @property(nonatomic, assign) SCNetworkReachabilityRef reachabilityRef;
 @property(nonatomic, strong) dispatch_queue_t serialQueue;
@@ -47,7 +47,7 @@ static void BSGConnectivityCallback(SCNetworkReachabilityRef target,
 
 @end
 
-@implementation BSGConnectivity
+@implementation LLBSGConnectivity
 
 - (instancetype)initWithURL:(NSURL *)url
                 changeBlock:(ConnectivityChange)changeBlock {

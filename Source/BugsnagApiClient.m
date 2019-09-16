@@ -1,6 +1,6 @@
 //
 // Created by Jamie Lynch on 04/12/2017.
-// Copyright (c) 2017 Bugsnag. All rights reserved.
+// Copyright (c) 2017 LLBugsnag. All rights reserved.
 //
 
 #import "BugsnagApiClient.h"
@@ -9,16 +9,16 @@
 #import "BugsnagKeys.h"
 #import "BugsnagLogger.h"
 
-@interface BSGDelayOperation : NSOperation
+@interface LLBSGDelayOperation : NSOperation
 @end
 
-@interface BugsnagApiClient()
+@interface LLBugsnagApiClient()
 @property (nonatomic) NSURLSession *generatedSession;
 @end
 
-@implementation BugsnagApiClient
+@implementation LLBugsnagApiClient
 
-- (instancetype)initWithConfig:(BugsnagConfiguration *)configuration
+- (instancetype)initWithConfig:(LLBugsnagConfiguration *)configuration
                      queueName:(NSString *)queueName {
     if (self = [super init]) {
         _sendQueue = [NSOperationQueue new];
@@ -35,7 +35,7 @@
 
 - (void)flushPendingData {
     [self.sendQueue cancelAllOperations];
-    BSGDelayOperation *delay = [BSGDelayOperation new];
+    LLBSGDelayOperation *delay = [LLBSGDelayOperation new];
     NSOperation *deliver = [self deliveryOperation];
     [deliver addDependency:delay];
     [self.sendQueue addOperations:@[delay, deliver] waitUntilFinished:NO];
@@ -107,7 +107,7 @@
 }
 
 - (NSURLSession *)prepareSession {
-    NSURLSession *session = [Bugsnag configuration].session;
+    NSURLSession *session = [LLBugsnag configuration].session;
     if (session) {
         return session;
     } else {
@@ -141,7 +141,7 @@
 
 @end
 
-@implementation BSGDelayOperation
+@implementation LLBSGDelayOperation
 const NSTimeInterval BSG_SEND_DELAY_SECS = 1;
 
 - (void)main {

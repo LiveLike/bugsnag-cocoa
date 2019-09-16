@@ -40,7 +40,7 @@
 #import <UIKit/UIKit.h>
 #endif
 
-@implementation BSG_KSSystemInfo
+@implementation LLBSG_KSSystemInfo
 
 // ============================================================================
 #pragma mark - Utility -
@@ -337,16 +337,16 @@
 }
 
 + (NSString *)buildType {
-    if ([BSG_KSSystemInfo isSimulatorBuild]) {
+    if ([LLBSG_KSSystemInfo isSimulatorBuild]) {
         return @"simulator";
     }
-    if ([BSG_KSSystemInfo isDebugBuild]) {
+    if ([LLBSG_KSSystemInfo isDebugBuild]) {
         return @"debug";
     }
-    if ([BSG_KSSystemInfo isTestBuild]) {
+    if ([LLBSG_KSSystemInfo isTestBuild]) {
         return @"test";
     }
-    if ([BSG_KSSystemInfo hasAppStoreReceipt]) {
+    if ([LLBSG_KSSystemInfo hasAppStoreReceipt]) {
         return @"app store";
     }
     return @"unknown";
@@ -420,7 +420,7 @@
     BSGDictSetSafeObject(sysInfo, @([NSProcessInfo processInfo].processIdentifier), @BSG_KSSystemField_ProcessID);
     BSGDictSetSafeObject(sysInfo, @(getppid()), @BSG_KSSystemField_ParentProcessID);
     BSGDictSetSafeObject(sysInfo, [self deviceAndAppHash], @BSG_KSSystemField_DeviceAppHash);
-    BSGDictSetSafeObject(sysInfo, [BSG_KSSystemInfo buildType], @BSG_KSSystemField_BuildType);
+    BSGDictSetSafeObject(sysInfo, [LLBSG_KSSystemInfo buildType], @BSG_KSSystemField_BuildType);
 
     NSDictionary *memory =
             @{@BSG_KSSystemField_Size: [self int64Sysctl:@"hw.memsize"]};
@@ -458,9 +458,9 @@
 const char *bsg_kssysteminfo_toJSON(void) {
     NSError *error;
     NSDictionary *systemInfo = [NSMutableDictionary
-        dictionaryWithDictionary:[BSG_KSSystemInfo systemInfo]];
+        dictionaryWithDictionary:[LLBSG_KSSystemInfo systemInfo]];
     NSMutableData *jsonData =
-        (NSMutableData *)[BSG_KSJSONCodec encode:systemInfo
+        (NSMutableData *)[LLBSG_KSJSONCodec encode:systemInfo
                                          options:BSG_KSJSONEncodeOptionSorted
                                            error:&error];
     if (error != nil) {

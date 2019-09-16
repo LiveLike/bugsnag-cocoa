@@ -1,21 +1,21 @@
 //
-//  BugsnagSessionTrackingPayload.h
-//  Bugsnag
+//  LLBugsnagSessionTrackingPayload.h
+//  LLBugsnag
 //
 //  Created by Jamie Lynch on 27/11/2017.
-//  Copyright © 2017 Bugsnag. All rights reserved.
+//  Copyright © 2017 LLBugsnag. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
 #import "BugsnagSession.h"
 
-@interface BugsnagSessionTrackingPayload : NSObject
+@interface LLBugsnagSessionTrackingPayload : NSObject
 
-- (instancetype)initWithSessions:(NSArray<BugsnagSession *> *)sessions;
+- (instancetype)initWithSessions:(NSArray<LLBugsnagSession *> *)sessions;
 
 - (NSMutableDictionary *)toJson;
 
-@property NSArray<BugsnagSession *> *sessions;
+@property NSArray<LLBugsnagSession *> *sessions;
 
 @end

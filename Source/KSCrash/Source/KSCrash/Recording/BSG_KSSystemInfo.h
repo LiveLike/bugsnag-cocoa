@@ -1,5 +1,5 @@
 //
-//  BSG_KSSystemInfo.h
+//  LLBSG_KSSystemInfo.h
 //
 //  Created by Karl Stenerud on 2012-02-05.
 //
@@ -60,7 +60,7 @@
 /**
  * Provides system information useful for a crash report.
  */
-@interface BSG_KSSystemInfo : NSObject
+@interface LLBSG_KSSystemInfo : NSObject
 
 /** Get the system info.
  *

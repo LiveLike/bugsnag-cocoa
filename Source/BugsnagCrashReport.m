@@ -1,6 +1,6 @@
 //
-//  BugsnagCrashReport.m
-//  Bugsnag
+//  LLBugsnagCrashReport.m
+//  LLBugsnag
 //
 //  Created by Simon Maynard on 11/26/14.
 //
@@ -177,21 +177,21 @@ static NSString *const DEFAULT_EXCEPTION_TYPE = @"cocoa";
 - (NSDictionary *)BSG_mergedInto:(NSDictionary *)dest;
 @end
 
-@interface RegisterErrorData : NSObject
+@interface LLRegisterErrorData : NSObject
 @property (nonatomic, strong) NSString *errorClass;
 @property (nonatomic, strong) NSString *errorMessage;
 + (instancetype)errorDataFromThreads:(NSArray *)threads;
 - (instancetype)initWithClass:(NSString *_Nonnull)errorClass message:(NSString *_Nonnull)errorMessage NS_DESIGNATED_INITIALIZER;
 @end
 
-@interface FallbackReportData : NSObject
+@interface LLFallbackReportData : NSObject
 @property (nonatomic, strong) NSString *errorClass;
 @property (nonatomic, getter=isUnhandled) BOOL unhandled;
 @property (nonatomic) BSGSeverity severity;
 - (instancetype)initWithMetadata:(NSString *)metadata;
 @end
 
-@interface BugsnagCrashReport ()
+@interface LLBugsnagCrashReport ()
 
 /**
  *  The type of the error, such as `mach` or `user`
@@ -217,12 +217,12 @@ static NSString *const DEFAULT_EXCEPTION_TYPE = @"cocoa";
  *  User-provided exception metadata
  */
 @property(nonatomic, readwrite, copy, nullable) NSDictionary *customException;
-@property(nonatomic, strong) BugsnagSession *session;
+@property(nonatomic, strong) LLBugsnagSession *session;
 
 @property (nonatomic, readwrite, getter=isIncomplete) BOOL incomplete;
 @end
 
-@implementation BugsnagCrashReport
+@implementation LLBugsnagCrashReport
 
 - (instancetype)initWithKSReport:(NSDictionary *)report {
     return [self initWithKSReport:report fileMetadata:@""];
@@ -240,25 +240,25 @@ static NSString *const DEFAULT_EXCEPTION_TYPE = @"cocoa";
             _app = [report valueForKeyPath:@"user.state.oom.app"];
             _device = [report valueForKeyPath:@"user.state.oom.device"];
             _releaseStage = [report valueForKeyPath:@"user.state.oom.app.releaseStage"];
-            _handledState = [BugsnagHandledState handledStateWithSeverityReason:LikelyOutOfMemory];
+            _handledState = [LLBugsnagHandledState handledStateWithSeverityReason:LikelyOutOfMemory];
             _deviceAppHash = [report valueForKeyPath:@"user.state.oom.device.id"];
             _metaData = [NSMutableDictionary new];
             NSDictionary *sessionData = [report valueForKeyPath:@"user.state.oom.session"];
             if (sessionData) {
-                _session = [[BugsnagSession alloc] initWithDictionary:sessionData];
+                _session = [[LLBugsnagSession alloc] initWithDictionary:sessionData];
                 _session.unhandledCount += 1; // include own event
                 if (_session.user) {
                     _metaData = @{@"user": [_session.user toJson]};
                 }
             }
         } else {
-            FallbackReportData *fallback = [[FallbackReportData alloc] initWithMetadata:metadata];
+            LLFallbackReportData *fallback = [[LLFallbackReportData alloc] initWithMetadata:metadata];
             _notifyReleaseStages =
                 [report valueForKeyPath:@"user.config.notifyReleaseStages"];
             _releaseStage = BSGParseReleaseStage(report);
             _incomplete = report.count == 0;
             _threads = [report valueForKeyPath:@"crash.threads"];
-            RegisterErrorData *data = [RegisterErrorData errorDataFromThreads:_threads];
+            LLRegisterErrorData *data = [LLRegisterErrorData errorDataFromThreads:_threads];
             if (data) {
                 _errorClass = data.errorClass ?: fallback.errorClass;
                 _errorMessage = data.errorMessage;
@@ -287,7 +287,7 @@ static NSString *const DEFAULT_EXCEPTION_TYPE = @"cocoa";
 
             if (recordedState) {
                 _handledState =
-                    [[BugsnagHandledState alloc] initWithDictionary:recordedState];
+                    [[LLBugsnagHandledState alloc] initWithDictionary:recordedState];
 
                 // only makes sense to use serialised value for handled exceptions
                 _depth = [[report valueForKeyPath:@"user.depth"]
@@ -296,21 +296,21 @@ static NSString *const DEFAULT_EXCEPTION_TYPE = @"cocoa";
                 BOOL isSignal = [BSGKeySignal isEqualToString:_errorType];
                 SeverityReasonType severityReason =
                     isSignal ? Signal : UnhandledException;
-                _handledState = [BugsnagHandledState
+                _handledState = [LLBugsnagHandledState
                     handledStateWithSeverityReason:severityReason
                                           severity:BSGSeverityError
                                          attrValue:_errorClass];
                 _depth = 0;
             } else { // Incomplete report
                 SeverityReasonType severityReason = [fallback isUnhandled] ? UnhandledException : HandledError;
-                _handledState = [BugsnagHandledState handledStateWithSeverityReason:severityReason
+                _handledState = [LLBugsnagHandledState handledStateWithSeverityReason:severityReason
                                                                            severity:fallback.severity
                                                                           attrValue:nil];
             }
             _severity = _handledState.currentSeverity;
 
             if (report[@"user"][@"id"]) {
-                _session = [[BugsnagSession alloc] initWithDictionary:report[@"user"]];
+                _session = [[LLBugsnagSession alloc] initWithDictionary:report[@"user"]];
             }
         }
     }
@@ -320,10 +320,10 @@ static NSString *const DEFAULT_EXCEPTION_TYPE = @"cocoa";
 - (instancetype _Nonnull)
 initWithErrorName:(NSString *_Nonnull)name
      errorMessage:(NSString *_Nonnull)message
-    configuration:(BugsnagConfiguration *_Nonnull)config
+    configuration:(LLBugsnagConfiguration *_Nonnull)config
          metaData:(NSDictionary *_Nonnull)metaData
-     handledState:(BugsnagHandledState *_Nonnull)handledState
-          session:(BugsnagSession *_Nullable)session {
+     handledState:(LLBugsnagHandledState *_Nonnull)handledState
+          session:(LLBugsnagSession *_Nullable)session {
     if (self = [super init]) {
         _errorClass = name;
         _errorMessage = message;
@@ -394,7 +394,7 @@ initWithErrorName:(NSString *_Nonnull)name
 - (BOOL)shouldBeSent {
     return [self.notifyReleaseStages containsObject:self.releaseStage] ||
            (self.notifyReleaseStages.count == 0 &&
-            [[Bugsnag configuration] shouldSendReports]);
+            [[LLBugsnag configuration] shouldSendReports]);
 }
 
 @synthesize context = _context;
@@ -546,7 +546,7 @@ initWithErrorName:(NSString *_Nonnull)name
 
     // serialize handled/unhandled into payload
     NSMutableDictionary *severityReason = [NSMutableDictionary new];
-    NSString *reasonType = [BugsnagHandledState
+    NSString *reasonType = [LLBugsnagHandledState
         stringFromSeverityReason:self.handledState.calculateSeverityReasonType];
     severityReason[BSGKeyType] = reasonType;
 
@@ -587,7 +587,7 @@ initWithErrorName:(NSString *_Nonnull)name
 
     NSDictionary *sessionJson = @{
             BSGKeyId: self.session.sessionId,
-            @"startedAt": [BSG_RFC3339DateTool stringFromDate:self.session.startedAt],
+            @"startedAt": [LLBSG_RFC3339DateTool stringFromDate:self.session.startedAt],
             @"events": events
     };
     return sessionJson;
@@ -659,7 +659,7 @@ initWithErrorName:(NSString *_Nonnull)name
 
 @end
 
-@implementation FallbackReportData
+@implementation LLFallbackReportData
 
 - (instancetype)initWithMetadata:(NSString *)metadata {
     if (self = [super init]) {
@@ -695,7 +695,7 @@ initWithErrorName:(NSString *_Nonnull)name
 
 @end
 
-@implementation RegisterErrorData
+@implementation LLRegisterErrorData
 + (instancetype)errorDataFromThreads:(NSArray *)threads {
     for (NSDictionary *thread in threads) {
         if (![thread[@"crashed"] boolValue]) {
@@ -730,7 +730,7 @@ initWithErrorName:(NSString *_Nonnull)name
         [interestingValues sortUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 
         NSString *message = [interestingValues componentsJoinedByString:@" | "];
-        return [[RegisterErrorData alloc] initWithClass:reservedWord
+        return [[LLRegisterErrorData alloc] initWithClass:reservedWord
                                                 message:message];
     }
     return nil;

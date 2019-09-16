@@ -1,6 +1,6 @@
 //
 // Created by Jamie Lynch on 29/11/2017.
-// Copyright (c) 2017 Bugsnag. All rights reserved.
+// Copyright (c) 2017 LLBugsnag. All rights reserved.
 //
 
 #import "BugsnagFileStore.h"
@@ -16,26 +16,26 @@
  * Metadata class to hold name and creation date for a file, with
  * default comparison based on the creation date (ascending).
  */
-@interface FileStoreInfo : NSObject
+@interface LLFileStoreInfo : NSObject
 
 @property(nonatomic, readonly, retain) NSString *fileId;
 @property(nonatomic, readonly, retain) NSDate *creationDate;
 
-+ (FileStoreInfo *)fileStoreInfoWithId:(NSString *)fileId
++ (LLFileStoreInfo *)fileStoreInfoWithId:(NSString *)fileId
                           creationDate:(NSDate *)creationDate;
 
 - (instancetype)initWithId:(NSString *)fileId creationDate:(NSDate *)creationDate;
 
-- (NSComparisonResult)compare:(FileStoreInfo *)other;
+- (NSComparisonResult)compare:(LLFileStoreInfo *)other;
 
 @end
 
-@implementation FileStoreInfo
+@implementation LLFileStoreInfo
 
 @synthesize fileId = _fileId;
 @synthesize creationDate = _creationDate;
 
-+ (FileStoreInfo *)fileStoreInfoWithId:(NSString *)fileId
++ (LLFileStoreInfo *)fileStoreInfoWithId:(NSString *)fileId
                           creationDate:(NSDate *)creationDate {
     return [[self alloc] initWithId:fileId creationDate:creationDate];
 }
@@ -48,7 +48,7 @@
     return self;
 }
 
-- (NSComparisonResult)compare:(FileStoreInfo *)other {
+- (NSComparisonResult)compare:(LLFileStoreInfo *)other {
     return [_creationDate compare:other->_creationDate];
 }
 
@@ -57,14 +57,14 @@
 #pragma mark - Main Class
 
 
-@interface BugsnagFileStore ()
+@interface LLBugsnagFileStore ()
 
 @property(nonatomic, readwrite, retain) NSString *path;
 
 @end
 
 
-@implementation BugsnagFileStore
+@implementation LLBugsnagFileStore
 
 #pragma mark Properties
 
@@ -107,7 +107,7 @@
                 BSG_KSLOG_ERROR(@"Could not read file attributes for %@: %@",
                         fullPath, error);
             } else {
-                FileStoreInfo *info = [FileStoreInfo fileStoreInfoWithId:fileId
+                LLFileStoreInfo *info = [LLFileStoreInfo fileStoreInfoWithId:fileId
                                                             creationDate:[fileAttribs valueForKey:NSFileCreationDate]];
                 [files addObject:info];
             }
@@ -117,7 +117,7 @@
 
     NSMutableArray *sortedIDs =
             [NSMutableArray arrayWithCapacity:[files count]];
-    for (FileStoreInfo *info in files) {
+    for (LLFileStoreInfo *info in files) {
         [sortedIDs addObject:info.fileId];
     }
     return sortedIDs;
@@ -306,7 +306,7 @@
     }
 
     NSMutableDictionary *fileContents =
-            [BSG_KSJSONCodec decode:jsonData
+            [LLBSG_KSJSONCodec decode:jsonData
                             options:BSG_KSJSONDecodeOptionIgnoreNullInArray |
                                     BSG_KSJSONDecodeOptionIgnoreNullInObject |
                                     BSG_KSJSONDecodeOptionKeepPartialObject
@@ -321,7 +321,7 @@
 
 
 - (NSString *)filenameWithId:(NSString *)fileId {
-    // e.g. Bugsnag Test App-CrashReport-54D4FF86-C3D1-4167-8485-3D7539FDFFF5.json
+    // e.g. LLBugsnag Test App-CrashReport-54D4FF86-C3D1-4167-8485-3D7539FDFFF5.json
     return [NSString stringWithFormat:@"%@%@%@.json", self.bundleName, self.filenameSuffix, fileId];
 }
 

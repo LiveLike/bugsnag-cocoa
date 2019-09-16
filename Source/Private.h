@@ -3,7 +3,7 @@
 
 #import "BugsnagBreadcrumb.h"
 
-@interface BugsnagBreadcrumbs ()
+@interface LLBugsnagBreadcrumbs ()
 /**
  * Reads and return breadcrumb data currently stored on disk
  */

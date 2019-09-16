@@ -1,6 +1,6 @@
 //
-//  BSG_KSCrashDoctor.m
-//  BSG_KSCrash
+//  LLBSG_KSCrashDoctor.m
+//  LLBSG_KSCrash
 //
 //  Created by Karl Stenerud on 2012-11-10.
 //  Copyright (c) 2012 Karl Stenerud. All rights reserved.
@@ -20,7 +20,7 @@ typedef enum {
     BSG_CPUFamilyX86_64
 } BSG_CPUFamily;
 
-@interface BSG_KSCrashDoctorParam : NSObject
+@interface LLBSG_KSCrashDoctorParam : NSObject
 
 @property(nonatomic, readwrite, retain) NSString *className;
 @property(nonatomic, readwrite, retain) NSString *previousClassName;
@@ -31,7 +31,7 @@ typedef enum {
 
 @end
 
-@implementation BSG_KSCrashDoctorParam
+@implementation LLBSG_KSCrashDoctorParam
 
 @synthesize className = _className;
 @synthesize previousClassName = _previousClassName;
@@ -42,23 +42,23 @@ typedef enum {
 
 @end
 
-@interface BSG_KSCrashDoctorFunctionCall : NSObject
+@interface LLBSG_KSCrashDoctorFunctionCall : NSObject
 
 @property(nonatomic, readwrite, retain) NSString *name;
 @property(nonatomic, readwrite, retain) NSArray *params;
 
 @end
 
-@implementation BSG_KSCrashDoctorFunctionCall
+@implementation LLBSG_KSCrashDoctorFunctionCall
 
 @synthesize name = _name;
 @synthesize params = _params;
 
 @end
 
-@implementation BSG_KSCrashDoctor
+@implementation LLBSG_KSCrashDoctor
 
-+ (BSG_KSCrashDoctor *)doctor {
++ (LLBSG_KSCrashDoctor *)doctor {
     return [[self alloc] init];
 }
 
@@ -362,12 +362,12 @@ typedef enum {
             return
                 [NSString stringWithFormat:@"No diagnosis due to exception "
                                            @"%@:\n%@\nPlease file a bug report "
-                                           @"to the BSG_KSCrash project.",
+                                           @"to the LLBSG_KSCrash project.",
                                            e, symbols];
         }
         return [NSString
             stringWithFormat:@"No diagnosis due to exception %@\nPlease file a "
-                             @"bug report to the BSG_KSCrash project.",
+                             @"bug report to the LLBSG_KSCrash project.",
                              e];
     }
 }

@@ -1,9 +1,9 @@
 //
-//  BugsnagMetaData.m
+//  LLBugsnagMetaData.m
 //
 //  Created by Conrad Irwin on 2014-10-01.
 //
-//  Copyright (c) 2014 Bugsnag, Inc. All rights reserved.
+//  Copyright (c) 2014 LLBugsnag, Inc. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,11 +28,11 @@
 #import "BSGSerialization.h"
 #import "BugsnagLogger.h"
 
-@interface BugsnagMetaData ()
+@interface LLBugsnagMetaData ()
 @property(atomic, strong) NSMutableDictionary *dictionary;
 @end
 
-@implementation BugsnagMetaData
+@implementation LLBugsnagMetaData
 
 - (id)init {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -50,7 +50,7 @@
 - (id)mutableCopyWithZone:(NSZone *)zone {
     @synchronized(self) {
         NSMutableDictionary *dict = [self.dictionary mutableCopy];
-        return [[BugsnagMetaData alloc] initWithDictionary:dict];
+        return [[LLBugsnagMetaData alloc] initWithDictionary:dict];
     }
 }
 

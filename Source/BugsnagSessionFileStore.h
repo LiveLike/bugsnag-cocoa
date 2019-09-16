@@ -1,6 +1,6 @@
 //
 // Created by Jamie Lynch on 30/11/2017.
-// Copyright (c) 2017 Bugsnag. All rights reserved.
+// Copyright (c) 2017 LLBugsnag. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -8,9 +8,9 @@
 #import "BugsnagFileStore.h"
 #import "BugsnagSession.h"
 
-@interface BugsnagSessionFileStore : BugsnagFileStore
-+ (BugsnagSessionFileStore *)storeWithPath:(NSString *)path;
+@interface LLBugsnagSessionFileStore : LLBugsnagFileStore
++ (LLBugsnagSessionFileStore *)storeWithPath:(NSString *)path;
 
-- (void)write:(BugsnagSession *)session;
+- (void)write:(LLBugsnagSession *)session;
 
 @end

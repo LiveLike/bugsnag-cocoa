@@ -1,15 +1,15 @@
 //
-//  BugsnagUser.m
-//  Bugsnag
+//  LLBugsnagUser.m
+//  LLBugsnag
 //
 //  Created by Jamie Lynch on 24/11/2017.
-//  Copyright © 2017 Bugsnag. All rights reserved.
+//  Copyright © 2017 LLBugsnag. All rights reserved.
 //
 
 #import "BugsnagUser.h"
 #import "BugsnagCollections.h"
 
-@implementation BugsnagUser
+@implementation LLBugsnagUser
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     if (self = [super init]) {

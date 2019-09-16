@@ -1,9 +1,9 @@
 //
-//  BugsnagBreadcrumb.h
+//  LLBugsnagBreadcrumb.h
 //
 //  Created by Delisa Mason on 9/16/15.
 //
-//  Copyright (c) 2015 Bugsnag, Inc. All rights reserved.
+//  Copyright (c) 2015 LLBugsnag, Inc. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -35,11 +35,11 @@
 
 typedef NS_ENUM(NSUInteger, BSGBreadcrumbType) {
     /**
-     *  Any breadcrumb sent via Bugsnag.leaveBreadcrumb()
+     *  Any breadcrumb sent via LLBugsnag.leaveBreadcrumb()
      */
     BSGBreadcrumbTypeManual,
     /**
-     *  A call to Bugsnag.notify() (internal use only)
+     *  A call to LLBugsnag.notify() (internal use only)
      */
     BSGBreadcrumbTypeError,
     /**
@@ -69,11 +69,11 @@ typedef NS_ENUM(NSUInteger, BSGBreadcrumbType) {
     BSGBreadcrumbTypeUser,
 };
 
-@class BugsnagBreadcrumb;
+@class LLBugsnagBreadcrumb;
 
-typedef void (^BSGBreadcrumbConfiguration)(BugsnagBreadcrumb *_Nonnull);
+typedef void (^BSGBreadcrumbConfiguration)(LLBugsnagBreadcrumb *_Nonnull);
 
-@interface BugsnagBreadcrumb : NSObject
+@interface LLBugsnagBreadcrumb : NSObject
 
 @property(readonly, nullable) NSDate *timestamp;
 @property(readwrite) BSGBreadcrumbType type;
@@ -85,7 +85,7 @@ typedef void (^BSGBreadcrumbConfiguration)(BugsnagBreadcrumb *_Nonnull);
 
 @end
 
-@interface BugsnagBreadcrumbs : NSObject
+@interface LLBugsnagBreadcrumbs : NSObject
 
 /**
  * The maximum number of breadcrumbs. Resizable.
@@ -110,7 +110,7 @@ typedef void (^BSGBreadcrumbConfiguration)(BugsnagBreadcrumb *_Nonnull);
  *  @param block configuration block
  */
 - (void)addBreadcrumbWithBlock:
-    (void (^_Nonnull)(BugsnagBreadcrumb *_Nonnull))block;
+    (void (^_Nonnull)(LLBugsnagBreadcrumb *_Nonnull))block;
 
 /**
  * Clear all stored breadcrumbs.
@@ -118,7 +118,7 @@ typedef void (^BSGBreadcrumbConfiguration)(BugsnagBreadcrumb *_Nonnull);
 - (void)clearBreadcrumbs;
 
 /** Breadcrumb object for a particular index or nil */
-- (BugsnagBreadcrumb *_Nullable)objectAtIndexedSubscript:(NSUInteger)index;
+- (LLBugsnagBreadcrumb *_Nullable)objectAtIndexedSubscript:(NSUInteger)index;
 
 /**
  * Serializable array representation of breadcrumbs, represented as nested

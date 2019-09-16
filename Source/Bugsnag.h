@@ -1,9 +1,9 @@
 //
-//  Bugsnag.h
+//  LLBugsnag.h
 //
 //  Created by Conrad Irwin on 2014-10-01.
 //
-//  Copyright (c) 2014 Bugsnag, Inc. All rights reserved.
+//  Copyright (c) 2014 LLBugsnag, Inc. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -32,49 +32,49 @@ static NSString *_Nonnull const BugsnagSeverityError = @"error";
 static NSString *_Nonnull const BugsnagSeverityWarning = @"warning";
 static NSString *_Nonnull const BugsnagSeverityInfo = @"info";
 
-@interface Bugsnag : NSObject
+@interface LLBugsnag : NSObject
 
-/** Get the current Bugsnag configuration.
+/** Get the current LLBugsnag configuration.
  *
  * This method returns nil if called before +startBugsnagWithApiKey: or
  * +startBugsnagWithConfiguration:, and otherwise returns the current
- * configuration for Bugsnag.
+ * configuration for LLBugsnag.
  *
  * @return The configuration, or nil.
  */
-+ (BugsnagConfiguration *_Nullable)configuration;
++ (LLBugsnagConfiguration *_Nullable)configuration;
 
 /** Start listening for crashes.
  *
- * This method initializes Bugsnag with the default configuration. Any uncaught
+ * This method initializes LLBugsnag with the default configuration. Any uncaught
  * NSExceptions, C++ exceptions, mach exceptions or signals will be logged to
  * disk before your app crashes. The next time your app boots, we send any such
- * reports to Bugsnag.
+ * reports to LLBugsnag.
  *
- * @param apiKey  The API key from your Bugsnag dashboard.
+ * @param apiKey  The API key from your LLBugsnag dashboard.
  */
 + (void)startBugsnagWithApiKey:(NSString *_Nonnull)apiKey;
 
 /** Start listening for crashes.
  *
- * This method initializes Bugsnag. Any uncaught NSExceptions, uncaught
+ * This method initializes LLBugsnag. Any uncaught NSExceptions, uncaught
  * C++ exceptions, mach exceptions or signals will be logged to disk before
  * your app crashes. The next time your app boots, we send any such
- * reports to Bugsnag.
+ * reports to LLBugsnag.
  *
  * @param configuration  The configuration to use.
  */
 + (void)startBugsnagWithConfiguration:
-    (BugsnagConfiguration *_Nonnull)configuration;
+    (LLBugsnagConfiguration *_Nonnull)configuration;
 
 /**
- * @return YES if Bugsnag has been started and the previous launch crashed
+ * @return YES if LLBugsnag has been started and the previous launch crashed
  */
 + (BOOL)appDidCrashLastLaunch;
 
-/** Send a custom or caught exception to Bugsnag.
+/** Send a custom or caught exception to LLBugsnag.
  *
- * The exception will be sent to Bugsnag in the background allowing your
+ * The exception will be sent to LLBugsnag in the background allowing your
  * app to continue running.
  *
  * @param exception  The exception.
@@ -82,7 +82,7 @@ static NSString *_Nonnull const BugsnagSeverityInfo = @"info";
 + (void)notify:(NSException *_Nonnull)exception;
 
 /**
- *  Send a custom or caught exception to Bugsnag
+ *  Send a custom or caught exception to LLBugsnag
  *
  *  @param exception The exception
  *  @param block     A block for optionally configuring the error report
@@ -91,14 +91,14 @@ static NSString *_Nonnull const BugsnagSeverityInfo = @"info";
          block:(BugsnagNotifyBlock _Nullable)block;
 
 /**
- *  Send an error to Bugsnag
+ *  Send an error to LLBugsnag
  *
  *  @param error The error
  */
 + (void)notifyError:(NSError *_Nonnull)error;
 
 /**
- *  Send an error to Bugsnag
+ *  Send an error to LLBugsnag
  *
  *  @param error The error
  *  @param block A block for optionally configuring the error report
@@ -106,9 +106,9 @@ static NSString *_Nonnull const BugsnagSeverityInfo = @"info";
 + (void)notifyError:(NSError *_Nonnull)error
               block:(BugsnagNotifyBlock _Nullable)block;
 
-/** Send a custom or caught exception to Bugsnag.
+/** Send a custom or caught exception to LLBugsnag.
  *
- * The exception will be sent to Bugsnag in the background allowing your
+ * The exception will be sent to LLBugsnag in the background allowing your
  * app to continue running.
  *
  * @param exception  The exception.
@@ -121,9 +121,9 @@ static NSString *_Nonnull const BugsnagSeverityInfo = @"info";
     __deprecated_msg("Use notify:block: instead and add the metadata to the "
                      "report directly.");
 
-/** Send a custom or caught exception to Bugsnag.
+/** Send a custom or caught exception to LLBugsnag.
  *
- * The exception will be sent to Bugsnag in the background allowing your
+ * The exception will be sent to LLBugsnag in the background allowing your
  * app to continue running.
  *
  * @param exception  The exception.
@@ -147,22 +147,22 @@ static NSString *_Nonnull const BugsnagSeverityInfo = @"info";
                     withData:(NSDictionary *_Nullable)metaData
                        block:(BugsnagNotifyBlock _Nullable)block;
 
-/** Add custom data to send to Bugsnag with every exception. If value is nil,
+/** Add custom data to send to LLBugsnag with every exception. If value is nil,
  *  delete the current value for attributeName
  *
- * See also [Bugsnag configuration].metaData;
+ * See also [LLBugsnag configuration].metaData;
  *
  * @param attributeName  The name of the data.
  *
  * @param value          Its value.
  *
- * @param tabName        The tab to show it on on the Bugsnag dashboard.
+ * @param tabName        The tab to show it on on the LLBugsnag dashboard.
  */
 + (void)addAttribute:(NSString *_Nonnull)attributeName
            withValue:(id _Nullable)value
        toTabWithName:(NSString *_Nonnull)tabName;
 
-/** Remove custom data from Bugsnag reports.
+/** Remove custom data from LLBugsnag reports.
  *
  * @param tabName        The tab to clear.
  */
@@ -183,7 +183,7 @@ static NSString *_Nonnull const BugsnagSeverityInfo = @"info";
  *  @param block configuration block
  */
 + (void)leaveBreadcrumbWithBlock:
-    (void (^_Nonnull)(BugsnagBreadcrumb *_Nonnull))block;
+    (void (^_Nonnull)(LLBugsnagBreadcrumb *_Nonnull))block;
 
 /**
  *  Leave a "breadcrumb" log message each time a notification with a provided
@@ -194,7 +194,7 @@ static NSString *_Nonnull const BugsnagSeverityInfo = @"info";
 + (void)leaveBreadcrumbForNotificationName:(NSString *_Nonnull)notificationName;
 
 /**
- * Set the maximum number of breadcrumbs to keep and sent to Bugsnag.
+ * Set the maximum number of breadcrumbs to keep and sent to LLBugsnag.
  * By default, we'll keep and send the 20 most recent breadcrumb log
  * messages.
  *
@@ -263,7 +263,7 @@ static NSString *_Nonnull const BugsnagSeverityInfo = @"info";
  *
  * You should call this at the appropriate time in your application when you wish to
  * resume a previously started session. Any subsequent errors which occur in your application
- * will be reported to Bugsnag and will count towards your application's stability score.
+ * will be reported to LLBugsnag and will count towards your application's stability score.
  *
  * @see startSession:
  * @see stopSession:

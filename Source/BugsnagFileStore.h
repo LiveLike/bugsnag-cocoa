@@ -1,11 +1,11 @@
 //
 // Created by Jamie Lynch on 29/11/2017.
-// Copyright (c) 2017 Bugsnag. All rights reserved.
+// Copyright (c) 2017 LLBugsnag. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@interface BugsnagFileStore : NSObject
+@interface LLBugsnagFileStore : NSObject
 
 /** Location where files are stored. */
 @property(nonatomic, readonly, retain) NSString *path;

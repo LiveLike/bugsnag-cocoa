@@ -1,6 +1,6 @@
 //
 // Created by Jamie Lynch on 30/11/2017.
-// Copyright (c) 2017 Bugsnag. All rights reserved.
+// Copyright (c) 2017 LLBugsnag. All rights reserved.
 //
 
 #import "BugsnagSessionTrackingApiClient.h"
@@ -12,13 +12,13 @@
 #import "BSG_RFC3339DateTool.h"
 
 
-@implementation BugsnagSessionTrackingApiClient
+@implementation LLBugsnagSessionTrackingApiClient
 
 - (NSOperation *)deliveryOperation {
     return [NSOperation new];
 }
 
-- (void)deliverSessionsInStore:(BugsnagSessionFileStore *)store {
+- (void)deliverSessionsInStore:(LLBugsnagSessionFileStore *)store {
     NSString *apiKey = [self.config.apiKey copy];
     NSURL *sessionURL = [self.config.sessionURL copy];
 
@@ -37,9 +37,9 @@
         NSMutableArray *sessions = [NSMutableArray new];
 
         for (NSDictionary *dict in [store allFiles]) {
-            [sessions addObject:[[BugsnagSession alloc] initWithDictionary:dict]];
+            [sessions addObject:[[LLBugsnagSession alloc] initWithDictionary:dict]];
         }
-        BugsnagSessionTrackingPayload *payload = [[BugsnagSessionTrackingPayload alloc] initWithSessions:sessions];
+        LLBugsnagSessionTrackingPayload *payload = [[LLBugsnagSessionTrackingPayload alloc] initWithSessions:sessions];
         NSUInteger sessionCount = payload.sessions.count;
         NSMutableDictionary *data = [payload toJson];
 
@@ -51,7 +51,7 @@
             NSDictionary *HTTPHeaders = @{
                                           @"Bugsnag-Payload-Version": @"1.0",
                                           @"Bugsnag-API-Key": apiKey,
-                                          @"Bugsnag-Sent-At": [BSG_RFC3339DateTool stringFromDate:[NSDate new]]
+                                          @"Bugsnag-Sent-At": [LLBSG_RFC3339DateTool stringFromDate:[NSDate new]]
                                           };
             [self sendItems:sessions.count
                 withPayload:data

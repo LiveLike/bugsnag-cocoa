@@ -1,9 +1,9 @@
 //
-//  BugsnagSessionTracker.m
-//  Bugsnag
+//  LLBugsnagSessionTracker.m
+//  LLBugsnag
 //
 //  Created by Jamie Lynch on 24/11/2017.
-//  Copyright © 2017 Bugsnag. All rights reserved.
+//  Copyright © 2017 LLBugsnag. All rights reserved.
 //
 
 #import "BugsnagSessionTracker.h"
@@ -20,13 +20,13 @@ NSTimeInterval const BSGNewSessionBackgroundDuration = 60;
 
 NSString *const BSGSessionUpdateNotification = @"BugsnagSessionChanged";
 
-@interface BugsnagSessionTracker ()
-@property (weak, nonatomic) BugsnagConfiguration *config;
-@property (strong, nonatomic) BugsnagSessionFileStore *sessionStore;
-@property (strong, nonatomic) BugsnagSessionTrackingApiClient *apiClient;
+@interface LLBugsnagSessionTracker ()
+@property (weak, nonatomic) LLBugsnagConfiguration *config;
+@property (strong, nonatomic) LLBugsnagSessionFileStore *sessionStore;
+@property (strong, nonatomic) LLBugsnagSessionTrackingApiClient *apiClient;
 @property (strong, nonatomic) NSDate *backgroundStartTime;
 
-@property (strong, readwrite) BugsnagSession *currentSession;
+@property (strong, readwrite) LLBugsnagSession *currentSession;
 
 /**
  * Called when a session is altered
@@ -34,20 +34,20 @@ NSString *const BSGSessionUpdateNotification = @"BugsnagSessionChanged";
 @property (nonatomic, strong, readonly) SessionTrackerCallback callback;
 @end
 
-@implementation BugsnagSessionTracker
+@implementation LLBugsnagSessionTracker
 
-- (instancetype)initWithConfig:(BugsnagConfiguration *)config
-            postRecordCallback:(void(^)(BugsnagSession *))callback {
+- (instancetype)initWithConfig:(LLBugsnagConfiguration *)config
+            postRecordCallback:(void(^)(LLBugsnagSession *))callback {
     if (self = [super init]) {
         _config = config;
-        _apiClient = [[BugsnagSessionTrackingApiClient alloc] initWithConfig:config queueName:@"Session API queue"];
+        _apiClient = [[LLBugsnagSessionTrackingApiClient alloc] initWithConfig:config queueName:@"Session API queue"];
         _callback = callback;
 
-        NSString *storePath = [BugsnagFileStore findReportStorePath:@"Sessions"];
+        NSString *storePath = [LLBugsnagFileStore findReportStorePath:@"Sessions"];
         if (!storePath) {
             BSG_KSLOG_ERROR(@"Failed to initialize session store.");
         }
-        _sessionStore = [BugsnagSessionFileStore storeWithPath:storePath];
+        _sessionStore = [LLBugsnagSessionFileStore storeWithPath:storePath];
     }
     return self;
 }
@@ -68,7 +68,7 @@ NSString *const BSGSessionUpdateNotification = @"BugsnagSessionChanged";
 }
 
 - (BOOL)resumeSession {
-    BugsnagSession *session = self.currentSession;
+    LLBugsnagSession *session = self.currentSession;
 
     if (session == nil) {
         [self startNewSessionWithAutoCaptureValue:NO];
@@ -81,8 +81,8 @@ NSString *const BSGSessionUpdateNotification = @"BugsnagSessionChanged";
     }
 }
 
-- (BugsnagSession *)runningSession {
-    BugsnagSession *session = self.currentSession;
+- (LLBugsnagSession *)runningSession {
+    LLBugsnagSession *session = self.currentSession;
 
     if (session == nil || session.isStopped) {
         return nil;
@@ -102,7 +102,7 @@ NSString *const BSGSessionUpdateNotification = @"BugsnagSessionChanged";
         return;
     }
 
-    self.currentSession = [[BugsnagSession alloc] initWithId:[[NSUUID UUID] UUIDString]
+    self.currentSession = [[LLBugsnagSession alloc] initWithId:[[NSUUID UUID] UUIDString]
                                                    startDate:[NSDate date]
                                                         user:self.config.currentUser
                                                 autoCaptured:isAutoCaptured];
@@ -119,13 +119,13 @@ NSString *const BSGSessionUpdateNotification = @"BugsnagSessionChanged";
 
 - (void)registerExistingSession:(NSString *)sessionId
                       startedAt:(NSDate *)startedAt
-                           user:(BugsnagUser *)user
+                           user:(LLBugsnagUser *)user
                    handledCount:(NSUInteger)handledCount
                  unhandledCount:(NSUInteger)unhandledCount {
     if (sessionId == nil || startedAt == nil) {
         self.currentSession = nil;
     } else {
-        self.currentSession = [[BugsnagSession alloc] initWithId:sessionId
+        self.currentSession = [[LLBugsnagSession alloc] initWithId:sessionId
                                                        startDate:startedAt
                                                             user:user
                                                     handledCount:handledCount
@@ -157,7 +157,7 @@ NSString *const BSGSessionUpdateNotification = @"BugsnagSessionChanged";
 }
 
 - (void)handleHandledErrorEvent {
-    BugsnagSession *session = [self runningSession];
+    LLBugsnagSession *session = [self runningSession];
 
     if (session == nil) {
         return;
@@ -173,7 +173,7 @@ NSString *const BSGSessionUpdateNotification = @"BugsnagSessionChanged";
 }
 
 - (void)handleUnhandledErrorEvent {
-    BugsnagSession *session = [self runningSession];
+    LLBugsnagSession *session = [self runningSession];
 
     if (session == nil) {
         return;

@@ -1,9 +1,9 @@
 //
-//  BugsnagSink.h
+//  LLBugsnagSink.h
 //
 //  Created by Conrad Irwin on 2014-10-01.
 //
-//  Copyright (c) 2014 Bugsnag, Inc. All rights reserved.
+//  Copyright (c) 2014 LLBugsnag, Inc. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -30,9 +30,9 @@
 
 #import "BugsnagErrorReportApiClient.h"
 
-@interface BugsnagSink : NSObject <BSG_KSCrashReportFilter>
+@interface LLBugsnagSink : NSObject <BSG_KSCrashReportFilter>
 
-- (instancetype)initWithApiClient:(BugsnagErrorReportApiClient *)apiClient;
-@property(nonatomic) BugsnagErrorReportApiClient *apiClient;
+- (instancetype)initWithApiClient:(LLBugsnagErrorReportApiClient *)apiClient;
+@property(nonatomic) LLBugsnagErrorReportApiClient *apiClient;
 
 @end

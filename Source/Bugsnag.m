@@ -1,9 +1,9 @@
 //
-//  Bugsnag.m
+//  LLBugsnag.m
 //
 //  Created by Conrad Irwin on 2014-10-01.
 //
-//  Copyright (c) 2014 Bugsnag, Inc. All rights reserved.
+//  Copyright (c) 2014 LLBugsnag, Inc. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -30,10 +30,10 @@
 #import "BugsnagNotifier.h"
 #import "BugsnagKeys.h"
 
-static BugsnagNotifier *bsg_g_bugsnag_notifier = NULL;
+static LLBugsnagNotifier *bsg_g_bugsnag_notifier = NULL;
 
-@interface Bugsnag ()
-+ (BugsnagNotifier *)notifier;
+@interface LLBugsnag ()
++ (LLBugsnagNotifier *)notifier;
 + (BOOL)bugsnagStarted;
 @end
 
@@ -41,19 +41,19 @@ static BugsnagNotifier *bsg_g_bugsnag_notifier = NULL;
 - (NSDictionary *)BSG_mergedInto:(NSDictionary *)dest;
 @end
 
-@implementation Bugsnag
+@implementation LLBugsnag
 
 + (void)startBugsnagWithApiKey:(NSString *)apiKey {
-    BugsnagConfiguration *configuration = [BugsnagConfiguration new];
+    LLBugsnagConfiguration *configuration = [LLBugsnagConfiguration new];
     configuration.apiKey = apiKey;
     [self startBugsnagWithConfiguration:configuration];
 }
 
-+ (void)startBugsnagWithConfiguration:(BugsnagConfiguration *)configuration {
++ (void)startBugsnagWithConfiguration:(LLBugsnagConfiguration *)configuration {
     @synchronized(self) {
         if ([configuration hasValidApiKey]) {
             bsg_g_bugsnag_notifier =
-                    [[BugsnagNotifier alloc] initWithConfiguration:configuration];
+                    [[LLBugsnagNotifier alloc] initWithConfiguration:configuration];
             [bsg_g_bugsnag_notifier start];
         } else {
             bsg_log_err(@"Bugsnag not initialized - a valid API key must be supplied.");
@@ -61,18 +61,18 @@ static BugsnagNotifier *bsg_g_bugsnag_notifier = NULL;
     }
 }
 
-+ (BugsnagConfiguration *)configuration {
++ (LLBugsnagConfiguration *)configuration {
     if ([self bugsnagStarted]) {
         return self.notifier.configuration;
     }
     return nil;
 }
 
-+ (BugsnagConfiguration *)instance {
++ (LLBugsnagConfiguration *)instance {
     return [self configuration];
 }
 
-+ (BugsnagNotifier *)notifier {
++ (LLBugsnagNotifier *)notifier {
     return bsg_g_bugsnag_notifier;
 }
 
@@ -86,7 +86,7 @@ static BugsnagNotifier *bsg_g_bugsnag_notifier = NULL;
 + (void)notify:(NSException *)exception {
     if ([self bugsnagStarted]) {
         [self.notifier notifyException:exception
-                                 block:^(BugsnagCrashReport *_Nonnull report) {
+                                 block:^(LLBugsnagCrashReport *_Nonnull report) {
                                      report.depth += 2;
                                  }];
     }
@@ -95,7 +95,7 @@ static BugsnagNotifier *bsg_g_bugsnag_notifier = NULL;
 + (void)notify:(NSException *)exception block:(BugsnagNotifyBlock)block {
     if ([self bugsnagStarted]) {
         [[self notifier] notifyException:exception
-                                   block:^(BugsnagCrashReport *_Nonnull report) {
+                                   block:^(LLBugsnagCrashReport *_Nonnull report) {
                                        report.depth += 2;
 
                                        if (block) {
@@ -108,7 +108,7 @@ static BugsnagNotifier *bsg_g_bugsnag_notifier = NULL;
 + (void)notifyError:(NSError *)error {
     if ([self bugsnagStarted]) {
         [self.notifier notifyError:error
-                             block:^(BugsnagCrashReport *_Nonnull report) {
+                             block:^(LLBugsnagCrashReport *_Nonnull report) {
                                  report.depth += 2;
                              }];
     }
@@ -117,7 +117,7 @@ static BugsnagNotifier *bsg_g_bugsnag_notifier = NULL;
 + (void)notifyError:(NSError *)error block:(BugsnagNotifyBlock)block {
     if ([self bugsnagStarted]) {
         [[self notifier] notifyError:error
-                               block:^(BugsnagCrashReport *_Nonnull report) {
+                               block:^(LLBugsnagCrashReport *_Nonnull report) {
                                    report.depth += 2;
 
                                    if (block) {
@@ -131,7 +131,7 @@ static BugsnagNotifier *bsg_g_bugsnag_notifier = NULL;
     if ([self bugsnagStarted]) {
         [[self notifier]
                 notifyException:exception
-                          block:^(BugsnagCrashReport *_Nonnull report) {
+                          block:^(LLBugsnagCrashReport *_Nonnull report) {
                               report.depth += 2;
                               report.metaData = [metaData
                                       BSG_mergedInto:[self.notifier.configuration
@@ -147,7 +147,7 @@ static BugsnagNotifier *bsg_g_bugsnag_notifier = NULL;
         [[self notifier]
                 notifyException:exception
                      atSeverity:BSGParseSeverity(severity)
-                          block:^(BugsnagCrashReport *_Nonnull report) {
+                          block:^(LLBugsnagCrashReport *_Nonnull report) {
                               report.depth += 2;
                               report.metaData = [metaData
                                       BSG_mergedInto:[self.notifier.configuration
@@ -185,8 +185,8 @@ static BugsnagNotifier *bsg_g_bugsnag_notifier = NULL;
 
 + (BOOL)bugsnagStarted {
     if (!self.notifier.started) {
-        bsg_log_err(@"Ensure you have started Bugsnag with startWithApiKey: "
-                    @"before calling any other Bugsnag functions.");
+        bsg_log_err(@"Ensure you have started LLBugsnag with startWithApiKey: "
+                    @"before calling any other LLBugsnag functions.");
 
         return NO;
     }
@@ -195,14 +195,14 @@ static BugsnagNotifier *bsg_g_bugsnag_notifier = NULL;
 
 + (void)leaveBreadcrumbWithMessage:(NSString *)message {
     if ([self bugsnagStarted]) {
-        [self leaveBreadcrumbWithBlock:^(BugsnagBreadcrumb *_Nonnull crumbs) {
+        [self leaveBreadcrumbWithBlock:^(LLBugsnagBreadcrumb *_Nonnull crumbs) {
             crumbs.metadata = @{BSGKeyMessage: message};
         }];
     }
 }
 
 + (void)leaveBreadcrumbWithBlock:
-    (void (^_Nonnull)(BugsnagBreadcrumb *_Nonnull))block {
+    (void (^_Nonnull)(LLBugsnagBreadcrumb *_Nonnull))block {
     if ([self bugsnagStarted]) {
         [self.notifier addBreadcrumbWithBlock:block];
     }
@@ -259,28 +259,28 @@ static BugsnagNotifier *bsg_g_bugsnag_notifier = NULL;
 
 + (void)setSuspendThreadsForUserReported:(BOOL)suspendThreadsForUserReported {
     if ([self bugsnagStarted]) {
-        [[BSG_KSCrash sharedInstance]
+        [[LLBSG_KSCrash sharedInstance]
                 setSuspendThreadsForUserReported:suspendThreadsForUserReported];
     }
 }
 
 + (void)setReportWhenDebuggerIsAttached:(BOOL)reportWhenDebuggerIsAttached {
     if ([self bugsnagStarted]) {
-        [[BSG_KSCrash sharedInstance]
+        [[LLBSG_KSCrash sharedInstance]
                 setReportWhenDebuggerIsAttached:reportWhenDebuggerIsAttached];
     }
 }
 
 + (void)setThreadTracingEnabled:(BOOL)threadTracingEnabled {
     if ([self bugsnagStarted]) {
-        [[BSG_KSCrash sharedInstance] setThreadTracingEnabled:threadTracingEnabled];
+        [[LLBSG_KSCrash sharedInstance] setThreadTracingEnabled:threadTracingEnabled];
     }
 }
 
 + (void)setWriteBinaryImagesForUserReported:
     (BOOL)writeBinaryImagesForUserReported {
     if ([self bugsnagStarted]) {
-        [[BSG_KSCrash sharedInstance]
+        [[LLBSG_KSCrash sharedInstance]
                 setWriteBinaryImagesForUserReported:writeBinaryImagesForUserReported];
     }
 }

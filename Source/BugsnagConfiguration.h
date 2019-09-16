@@ -1,9 +1,9 @@
 //
-//  BugsnagConfiguration.h
+//  LLBugsnagConfiguration.h
 //
 //  Created by Conrad Irwin on 2014-10-01.
 //
-//  Copyright (c) 2014 Bugsnag, Inc. All rights reserved.
+//  Copyright (c) 2014 LLBugsnag, Inc. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,18 +31,18 @@
 #import "BugsnagCrashReport.h"
 #import "BugsnagMetaData.h"
 
-@class BugsnagBreadcrumbs;
-@class BugsnagUser;
+@class LLBugsnagBreadcrumbs;
+@class LLBugsnagUser;
 
 /**
  *  A configuration block for modifying an error report
  *
  *  @param report The default report
  */
-typedef void (^BugsnagNotifyBlock)(BugsnagCrashReport *_Nonnull report);
+typedef void (^BugsnagNotifyBlock)(LLBugsnagCrashReport *_Nonnull report);
 
 /**
- *  A handler for modifying data before sending it to Bugsnag.
+ *  A handler for modifying data before sending it to LLBugsnag.
  *
  * beforeSendBlocks will be invoked on a dedicated
  * background queue, which will be different from the queue where the block was originally added.
@@ -54,7 +54,7 @@ typedef void (^BugsnagNotifyBlock)(BugsnagCrashReport *_Nonnull report);
  *  @return YES if the report should be sent
  */
 typedef bool (^BugsnagBeforeSendBlock)(NSDictionary *_Nonnull rawEventData,
-                                       BugsnagCrashReport *_Nonnull reports);
+                                       LLBugsnagCrashReport *_Nonnull reports);
 
 /**
  * A configuration block for modifying a session. Intended for internal usage only.
@@ -64,7 +64,7 @@ typedef bool (^BugsnagBeforeSendBlock)(NSDictionary *_Nonnull rawEventData,
 typedef void(^BeforeSendSession)(NSMutableDictionary *_Nonnull sessionPayload);
 
 /**
- *  A handler for modifying data before sending it to Bugsnag
+ *  A handler for modifying data before sending it to LLBugsnag
  *
  *  @param rawEventReports The raw event data written at crash time. This
  *                         includes data added in onCrashHandler.
@@ -75,9 +75,9 @@ typedef void(^BeforeSendSession)(NSMutableDictionary *_Nonnull sessionPayload);
 typedef NSDictionary *_Nullable (^BugsnagBeforeNotifyHook)(
     NSArray *_Nonnull rawEventReports, NSDictionary *_Nonnull report);
 
-@interface BugsnagConfiguration : NSObject
+@interface LLBugsnagConfiguration : NSObject
 /**
- *  The API key of a Bugsnag project
+ *  The API key of a LLBugsnag project
  */
 @property(readwrite, retain, nullable) NSString *apiKey;
 /**
@@ -86,7 +86,7 @@ typedef NSDictionary *_Nullable (^BugsnagBeforeNotifyHook)(
  */
 @property(readwrite, retain, nullable) NSString *releaseStage;
 /**
- *  Release stages which are allowed to notify Bugsnag
+ *  Release stages which are allowed to notify LLBugsnag
  */
 @property(readwrite, retain, nullable) NSArray *notifyReleaseStages;
 /**
@@ -99,29 +99,29 @@ typedef NSDictionary *_Nullable (^BugsnagBeforeNotifyHook)(
 @property(readwrite, retain, nullable) NSString *appVersion;
 
 /**
- *  The URL session used to send requests to Bugsnag.
+ *  The URL session used to send requests to LLBugsnag.
  */
 @property(readwrite, strong, nonnull) NSURLSession *session;
 
 /**
  * The current user
  */
-@property(retain, nullable) BugsnagUser *currentUser;
+@property(retain, nullable) LLBugsnagUser *currentUser;
 
 /**
  *  Additional information about the state of the app or environment at the
  *  time the report was generated
  */
-@property(readwrite, retain, nullable) BugsnagMetaData *metaData;
+@property(readwrite, retain, nullable) LLBugsnagMetaData *metaData;
 /**
- *  Meta-information about the state of Bugsnag
+ *  Meta-information about the state of LLBugsnag
  */
-@property(readwrite, retain, nullable) BugsnagMetaData *config;
+@property(readwrite, retain, nullable) LLBugsnagMetaData *config;
 /**
  *  Rolling snapshots of user actions leading up to a crash report
  */
 @property(readonly, strong, nullable)
-BugsnagBreadcrumbs *breadcrumbs;
+LLBugsnagBreadcrumbs *breadcrumbs;
 
 /**
  *  Whether to allow collection of automatic breadcrumbs for notable events
@@ -129,13 +129,13 @@ BugsnagBreadcrumbs *breadcrumbs;
 @property(readwrite) BOOL automaticallyCollectBreadcrumbs;
 
 /**
- *  Hooks for modifying crash reports before it is sent to Bugsnag
+ *  Hooks for modifying crash reports before it is sent to LLBugsnag
  */
 @property(readonly, strong, nullable)
     NSArray<BugsnagBeforeSendBlock> *beforeSendBlocks;
 
 /**
- *  Hooks for modifying sessions before they are sent to Bugsnag. Intended for internal use only by React Native/Unity.
+ *  Hooks for modifying sessions before they are sent to LLBugsnag. Intended for internal use only by React Native/Unity.
  */
 @property(readonly, strong, nullable)
 NSArray<BeforeSendSession> *beforeSendSessionBlocks;
@@ -153,7 +153,7 @@ NSArray<BeforeSendSession> *beforeSendSessionBlocks;
 
 /**
  * Determines whether app sessions should be tracked automatically. By default this value is true.
- * If this value is updated after +[Bugsnag start] is called, only subsequent automatic sessions
+ * If this value is updated after +[LLBugsnag start] is called, only subsequent automatic sessions
  * will be captured.
  */
 @property BOOL shouldAutoCaptureSessions;
@@ -171,7 +171,7 @@ NSArray<BeforeSendSession> *beforeSendSessionBlocks;
 @property BOOL reportBackgroundOOMs;
 
 /**
- * Retrieves the endpoint used to notify Bugsnag of errors
+ * Retrieves the endpoint used to notify LLBugsnag of errors
  *
  * NOTE: If you want to set this value, you should do so via setEndpointsForNotify:sessions: instead.
  *
@@ -180,7 +180,7 @@ NSArray<BeforeSendSession> *beforeSendSessionBlocks;
 @property(readonly, retain, nullable) NSURL *notifyURL;
 
 /**
- * Retrieves the endpoint used to send tracked sessions to Bugsnag
+ * Retrieves the endpoint used to send tracked sessions to LLBugsnag
  *
  * NOTE: If you want to set this value, you should do so via setEndpointsForNotify:sessions: instead.
  *
@@ -191,7 +191,7 @@ NSArray<BeforeSendSession> *beforeSendSessionBlocks;
 /**
  * Set the endpoints to send data to. By default we'll send error reports to
  * https://notify.bugsnag.com, and sessions to https://sessions.bugsnag.com, but you can
- * override this if you are using Bugsnag Enterprise to point to your own Bugsnag endpoint.
+ * override this if you are using LLBugsnag Enterprise to point to your own LLBugsnag endpoint.
  *
  * Please note that it is recommended that you set both endpoints. If the notify endpoint is
  * missing, an assertion will be thrown. If the session endpoint is missing, a warning will be
@@ -218,7 +218,7 @@ NSArray<BeforeSendSession> *beforeSendSessionBlocks;
        andEmail:(NSString *_Nullable)email;
 
 /**
- *  Add a callback to be invoked before a report is sent to Bugsnag, to
+ *  Add a callback to be invoked before a report is sent to LLBugsnag, to
  *  change the report contents as needed
  *
  *  @param block A block which returns YES if the report should be sent
@@ -226,7 +226,7 @@ NSArray<BeforeSendSession> *beforeSendSessionBlocks;
 - (void)addBeforeSendBlock:(BugsnagBeforeSendBlock _Nonnull)block;
 
 /**
- *  Add a callback to be invoked before a session is sent to Bugsnag. Intended for internal usage only.
+ *  Add a callback to be invoked before a session is sent to LLBugsnag. Intended for internal usage only.
  *
  *  @param block A block which can modify the session
  */
@@ -247,7 +247,7 @@ NSArray<BeforeSendSession> *beforeSendSessionBlocks;
 - (void)addBeforeNotifyHook:(BugsnagBeforeNotifyHook _Nonnull)hook
     __deprecated_msg("Use addBeforeSendBlock: instead.");
 /**
- *  Hooks for processing raw report data before it is sent to Bugsnag
+ *  Hooks for processing raw report data before it is sent to LLBugsnag
  */
 @property(readonly, strong, nullable)
     NSArray *beforeNotifyHooks __deprecated_msg("Use beforeNotify instead.");

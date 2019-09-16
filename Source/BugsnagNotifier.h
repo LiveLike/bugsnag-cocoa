@@ -1,9 +1,9 @@
 //
-//  BugsnagMetaData.m
+//  LLBugsnagMetaData.m
 //
 //  Created by Conrad Irwin on 2014-10-01.
 //
-//  Copyright (c) 2014 Bugsnag, Inc. All rights reserved.
+//  Copyright (c) 2014 LLBugsnag, Inc. All rights reserved.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -29,22 +29,22 @@
 #import "BugsnagConfiguration.h"
 #import "BugsnagMetaData.h"
 
-@class BSGConnectivity, BugsnagSessionTracker;
+@class LLBSGConnectivity, LLBugsnagSessionTracker;
 
-@interface BugsnagNotifier : NSObject <BugsnagMetaDataDelegate>
+@interface LLBugsnagNotifier : NSObject <BugsnagMetaDataDelegate>
 
 @property(nonatomic, readwrite, retain)
-    BugsnagConfiguration *_Nullable configuration;
-@property(nonatomic, readwrite, retain) BugsnagMetaData *_Nonnull state;
+    LLBugsnagConfiguration *_Nullable configuration;
+@property(nonatomic, readwrite, retain) LLBugsnagMetaData *_Nonnull state;
 @property(nonatomic, readwrite, retain) NSDictionary *_Nonnull details;
 @property(nonatomic, readwrite, retain) NSLock *_Nonnull metaDataLock;
-@property(nonatomic, readonly) BugsnagSessionTracker *_Nonnull sessionTracker;
+@property(nonatomic, readonly) LLBugsnagSessionTracker *_Nonnull sessionTracker;
 
-@property(nonatomic) BSGConnectivity *_Nonnull networkReachable;
+@property(nonatomic) LLBSGConnectivity *_Nonnull networkReachable;
 @property(readonly) BOOL started;
 
 - (instancetype _Nonnull)initWithConfiguration:
-    (BugsnagConfiguration *_Nonnull)configuration;
+    (LLBugsnagConfiguration *_Nonnull)configuration;
 - (void)start;
 
 - (void)startSession;
@@ -54,7 +54,7 @@
 - (BOOL)appCrashedLastLaunch;
 
 /**
- *  Notify Bugsnag of an exception
+ *  Notify LLBugsnag of an exception
  *
  *  @param exception the exception
  *  @param block     Configuration block for adding additional report
@@ -64,7 +64,7 @@
                   block:(BugsnagNotifyBlock _Nullable)block;
 
 /**
- *  Notify Bugsnag of an exception
+ *  Notify LLBugsnag of an exception
  *
  *  @param exception the exception
  *  @param severity  the severity
@@ -76,7 +76,7 @@
                   block:(BugsnagNotifyBlock _Nullable)block;
 
 /**
- *  Notify Bugsnag of an exception. Only intended for React Native/Unity use.
+ *  Notify LLBugsnag of an exception. Only intended for React Native/Unity use.
  *
  *  @param exception the exception
  *  @param metaData  the metadata
@@ -88,7 +88,7 @@
                        block:(BugsnagNotifyBlock _Nullable)block;
 
 /**
- *  Notify Bugsnag of an error
+ *  Notify LLBugsnag of an error
  *
  *  @param error the error
  *  @param block Configuration block for adding additional report information
@@ -102,7 +102,7 @@
  *  @param block configuration block
  */
 - (void)addBreadcrumbWithBlock:
-    (void (^_Nonnull)(BugsnagBreadcrumb *_Nonnull))block;
+    (void (^_Nonnull)(LLBugsnagBreadcrumb *_Nonnull))block;
 
 /**
  * Clear all stored breadcrumbs.

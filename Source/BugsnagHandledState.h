@@ -1,9 +1,9 @@
 //
-//  BugsnagHandledState.h
-//  Bugsnag
+//  LLBugsnagHandledState.h
+//  LLBugsnag
 //
 //  Created by Jamie Lynch on 21/09/2017.
-//  Copyright © 2017 Bugsnag. All rights reserved.
+//  Copyright © 2017 LLBugsnag. All rights reserved.
 //
 
 #import "BugsnagCrashReport.h"
@@ -21,7 +21,7 @@ typedef NS_ENUM(NSUInteger, SeverityReasonType) {
     LikelyOutOfMemory,
 };
 
-@interface BugsnagHandledState : NSObject
+@interface LLBugsnagHandledState : NSObject
 
 @property(nonatomic, readonly) BOOL unhandled;
 @property(nonatomic, readonly) SeverityReasonType severityReasonType;

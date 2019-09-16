@@ -1,5 +1,5 @@
 //
-//  BSG_KSCrash.h
+//  LLBSG_KSCrash.h
 //
 //  Created by Karl Stenerud on 2012-01-28.
 //
@@ -42,7 +42,7 @@ typedef enum {
  *
  * The crash reports will be located in $APP_HOME/Library/Caches/KSCrashReports
  */
-@interface BSG_KSCrash : NSObject
+@interface LLBSG_KSCrash : NSObject
 
 /** A dictionary containing any info you'd like to appear in crash reports. Must
  * contain only JSON-safe data: NSString for keys, and NSDictionary, NSArray,
@@ -65,7 +65,7 @@ typedef enum {
     BSG_KSCDeleteBehavior deleteBehaviorAfterSendAll;
 
 /** The crash types that are being handled.
- * Note: This value may change once BSG_KSCrash is installed if some handlers
+ * Note: This value may change once LLBSG_KSCrash is installed if some handlers
  *       fail to install.
  */
 @property(nonatomic, readwrite, assign) BSG_KSCrashType handlingCrashTypes;
@@ -81,7 +81,7 @@ typedef enum {
 
 /** Get the singleton instance of the crash reporter.
  */
-+ (BSG_KSCrash *)sharedInstance;
++ (LLBSG_KSCrash *)sharedInstance;
 
 /** Install the crash reporter.
  * The reporter will record crashes, but will not send any crash reports unless
